@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.OleDb;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -19,12 +21,20 @@ namespace ExpertMap
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            using (ExpertMapDataSet ds = new ExpertMapDataSet())
-            {
-                ds.Country.AddCountryRow("Russia");
-                ds.Country.AcceptChanges();
-                ds.AcceptChanges();
-            }
+            ExpertMapDataSet ds = new ExpertMapDataSet();
+            DataTableReader reader = ds.CreateDataReader(ds.Country);
+
+            string cs = Properties.Settings.Default.ExpertMapDbConnectionString;
+
+            OleDbConnection connection = new OleDbConnection(cs);
+
+            OleDbCommand command = connection.CreateCommand();
+            command.CommandType = CommandType.TableDirect;
+            command.CommandText = "Country";
+
+            connection.Open();
+
+            ds.Country.Load(command.ExecuteReader());
         }
     }
 }

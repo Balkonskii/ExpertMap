@@ -28,6 +28,8 @@ namespace ExpertMap.DataModels {
         
         private ExpertDataTable tableExpert;
         
+        private ExpertInMarkerDataTable tableExpertInMarker;
+        
         private ExpertQuoteDataTable tableExpertQuote;
         
         private MarkerDataTable tableMarker;
@@ -40,7 +42,11 @@ namespace ExpertMap.DataModels {
         
         private global::System.Data.DataRelation relationCountryExpert;
         
+        private global::System.Data.DataRelation relationExpertExpertInMarker;
+        
         private global::System.Data.DataRelation relationExpertExpertQuote;
+        
+        private global::System.Data.DataRelation relationMarkerExpertInMarker;
         
         private global::System.Data.DataRelation relationMarkerMarkerInRegion;
         
@@ -81,6 +87,9 @@ namespace ExpertMap.DataModels {
                 }
                 if ((ds.Tables["Expert"] != null)) {
                     base.Tables.Add(new ExpertDataTable(ds.Tables["Expert"]));
+                }
+                if ((ds.Tables["ExpertInMarker"] != null)) {
+                    base.Tables.Add(new ExpertInMarkerDataTable(ds.Tables["ExpertInMarker"]));
                 }
                 if ((ds.Tables["ExpertQuote"] != null)) {
                     base.Tables.Add(new ExpertQuoteDataTable(ds.Tables["ExpertQuote"]));
@@ -132,6 +141,16 @@ namespace ExpertMap.DataModels {
         public ExpertDataTable Expert {
             get {
                 return this.tableExpert;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public ExpertInMarkerDataTable ExpertInMarker {
+            get {
+                return this.tableExpertInMarker;
             }
         }
         
@@ -258,6 +277,9 @@ namespace ExpertMap.DataModels {
                 if ((ds.Tables["Expert"] != null)) {
                     base.Tables.Add(new ExpertDataTable(ds.Tables["Expert"]));
                 }
+                if ((ds.Tables["ExpertInMarker"] != null)) {
+                    base.Tables.Add(new ExpertInMarkerDataTable(ds.Tables["ExpertInMarker"]));
+                }
                 if ((ds.Tables["ExpertQuote"] != null)) {
                     base.Tables.Add(new ExpertQuoteDataTable(ds.Tables["ExpertQuote"]));
                 }
@@ -318,6 +340,12 @@ namespace ExpertMap.DataModels {
                     this.tableExpert.InitVars();
                 }
             }
+            this.tableExpertInMarker = ((ExpertInMarkerDataTable)(base.Tables["ExpertInMarker"]));
+            if ((initTable == true)) {
+                if ((this.tableExpertInMarker != null)) {
+                    this.tableExpertInMarker.InitVars();
+                }
+            }
             this.tableExpertQuote = ((ExpertQuoteDataTable)(base.Tables["ExpertQuote"]));
             if ((initTable == true)) {
                 if ((this.tableExpertQuote != null)) {
@@ -349,7 +377,9 @@ namespace ExpertMap.DataModels {
                 }
             }
             this.relationCountryExpert = this.Relations["CountryExpert"];
+            this.relationExpertExpertInMarker = this.Relations["ExpertExpertInMarker"];
             this.relationExpertExpertQuote = this.Relations["ExpertExpertQuote"];
+            this.relationMarkerExpertInMarker = this.Relations["MarkerExpertInMarker"];
             this.relationMarkerMarkerInRegion = this.Relations["MarkerMarkerInRegion"];
             this.relationRegionMarkerInRegion = this.Relations["RegionMarkerInRegion"];
             this.relationSpecializationExpert = this.Relations["SpecializationExpert"];
@@ -367,6 +397,8 @@ namespace ExpertMap.DataModels {
             base.Tables.Add(this.tableCountry);
             this.tableExpert = new ExpertDataTable();
             base.Tables.Add(this.tableExpert);
+            this.tableExpertInMarker = new ExpertInMarkerDataTable();
+            base.Tables.Add(this.tableExpertInMarker);
             this.tableExpertQuote = new ExpertQuoteDataTable();
             base.Tables.Add(this.tableExpertQuote);
             this.tableMarker = new MarkerDataTable();
@@ -381,10 +413,18 @@ namespace ExpertMap.DataModels {
                         this.tableCountry.IdColumn}, new global::System.Data.DataColumn[] {
                         this.tableExpert.CountryIdColumn}, false);
             this.Relations.Add(this.relationCountryExpert);
+            this.relationExpertExpertInMarker = new global::System.Data.DataRelation("ExpertExpertInMarker", new global::System.Data.DataColumn[] {
+                        this.tableExpert.IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableExpertInMarker.ExpertIdColumn}, false);
+            this.Relations.Add(this.relationExpertExpertInMarker);
             this.relationExpertExpertQuote = new global::System.Data.DataRelation("ExpertExpertQuote", new global::System.Data.DataColumn[] {
                         this.tableExpert.IdColumn}, new global::System.Data.DataColumn[] {
                         this.tableExpertQuote.ExpertIdColumn}, false);
             this.Relations.Add(this.relationExpertExpertQuote);
+            this.relationMarkerExpertInMarker = new global::System.Data.DataRelation("MarkerExpertInMarker", new global::System.Data.DataColumn[] {
+                        this.tableMarker.IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableExpertInMarker.MarkerIdColumn}, false);
+            this.Relations.Add(this.relationMarkerExpertInMarker);
             this.relationMarkerMarkerInRegion = new global::System.Data.DataRelation("MarkerMarkerInRegion", new global::System.Data.DataColumn[] {
                         this.tableMarker.IdColumn}, new global::System.Data.DataColumn[] {
                         this.tableMarkerInRegion.MarkerIdColumn}, false);
@@ -408,6 +448,12 @@ namespace ExpertMap.DataModels {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private bool ShouldSerializeExpert() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        private bool ShouldSerializeExpertInMarker() {
             return false;
         }
         
@@ -501,6 +547,9 @@ namespace ExpertMap.DataModels {
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         public delegate void ExpertRowChangeEventHandler(object sender, ExpertRowChangeEvent e);
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        public delegate void ExpertInMarkerRowChangeEventHandler(object sender, ExpertInMarkerRowChangeEvent e);
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         public delegate void ExpertQuoteRowChangeEventHandler(object sender, ExpertQuoteRowChangeEvent e);
@@ -1136,6 +1185,273 @@ namespace ExpertMap.DataModels {
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
                 attribute2.FixedValue = "ExpertDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class ExpertInMarkerDataTable : global::System.Data.TypedTableBase<ExpertInMarkerRow> {
+            
+            private global::System.Data.DataColumn columnExpertId;
+            
+            private global::System.Data.DataColumn columnMarkerId;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public ExpertInMarkerDataTable() {
+                this.TableName = "ExpertInMarker";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            internal ExpertInMarkerDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected ExpertInMarkerDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn ExpertIdColumn {
+                get {
+                    return this.columnExpertId;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn MarkerIdColumn {
+                get {
+                    return this.columnMarkerId;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public ExpertInMarkerRow this[int index] {
+                get {
+                    return ((ExpertInMarkerRow)(this.Rows[index]));
+                }
+            }
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public event ExpertInMarkerRowChangeEventHandler ExpertInMarkerRowChanging;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public event ExpertInMarkerRowChangeEventHandler ExpertInMarkerRowChanged;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public event ExpertInMarkerRowChangeEventHandler ExpertInMarkerRowDeleting;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public event ExpertInMarkerRowChangeEventHandler ExpertInMarkerRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void AddExpertInMarkerRow(ExpertInMarkerRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public ExpertInMarkerRow AddExpertInMarkerRow(ExpertRow parentExpertRowByExpertExpertInMarker, MarkerRow parentMarkerRowByMarkerExpertInMarker) {
+                ExpertInMarkerRow rowExpertInMarkerRow = ((ExpertInMarkerRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        null,
+                        null};
+                if ((parentExpertRowByExpertExpertInMarker != null)) {
+                    columnValuesArray[0] = parentExpertRowByExpertExpertInMarker[0];
+                }
+                if ((parentMarkerRowByMarkerExpertInMarker != null)) {
+                    columnValuesArray[1] = parentMarkerRowByMarkerExpertInMarker[0];
+                }
+                rowExpertInMarkerRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowExpertInMarkerRow);
+                return rowExpertInMarkerRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public override global::System.Data.DataTable Clone() {
+                ExpertInMarkerDataTable cln = ((ExpertInMarkerDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new ExpertInMarkerDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            internal void InitVars() {
+                this.columnExpertId = base.Columns["ExpertId"];
+                this.columnMarkerId = base.Columns["MarkerId"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            private void InitClass() {
+                this.columnExpertId = new global::System.Data.DataColumn("ExpertId", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnExpertId);
+                this.columnMarkerId = new global::System.Data.DataColumn("MarkerId", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnMarkerId);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public ExpertInMarkerRow NewExpertInMarkerRow() {
+                return ((ExpertInMarkerRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new ExpertInMarkerRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override global::System.Type GetRowType() {
+                return typeof(ExpertInMarkerRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.ExpertInMarkerRowChanged != null)) {
+                    this.ExpertInMarkerRowChanged(this, new ExpertInMarkerRowChangeEvent(((ExpertInMarkerRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.ExpertInMarkerRowChanging != null)) {
+                    this.ExpertInMarkerRowChanging(this, new ExpertInMarkerRowChangeEvent(((ExpertInMarkerRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.ExpertInMarkerRowDeleted != null)) {
+                    this.ExpertInMarkerRowDeleted(this, new ExpertInMarkerRowChangeEvent(((ExpertInMarkerRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.ExpertInMarkerRowDeleting != null)) {
+                    this.ExpertInMarkerRowDeleting(this, new ExpertInMarkerRowChangeEvent(((ExpertInMarkerRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void RemoveExpertInMarkerRow(ExpertInMarkerRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                ExpertMapDataSet ds = new ExpertMapDataSet();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "ExpertInMarkerDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -2917,6 +3233,17 @@ namespace ExpertMap.DataModels {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public ExpertInMarkerRow[] GetExpertInMarkerRows() {
+                if ((this.Table.ChildRelations["ExpertExpertInMarker"] == null)) {
+                    return new ExpertInMarkerRow[0];
+                }
+                else {
+                    return ((ExpertInMarkerRow[])(base.GetChildRows(this.Table.ChildRelations["ExpertExpertInMarker"])));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public ExpertQuoteRow[] GetExpertQuoteRows() {
                 if ((this.Table.ChildRelations["ExpertExpertQuote"] == null)) {
                     return new ExpertQuoteRow[0];
@@ -2924,6 +3251,99 @@ namespace ExpertMap.DataModels {
                 else {
                     return ((ExpertQuoteRow[])(base.GetChildRows(this.Table.ChildRelations["ExpertExpertQuote"])));
                 }
+            }
+        }
+        
+        /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        public partial class ExpertInMarkerRow : global::System.Data.DataRow {
+            
+            private ExpertInMarkerDataTable tableExpertInMarker;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            internal ExpertInMarkerRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableExpertInMarker = ((ExpertInMarkerDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public int ExpertId {
+                get {
+                    try {
+                        return ((int)(this[this.tableExpertInMarker.ExpertIdColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ExpertId\' in table \'ExpertInMarker\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableExpertInMarker.ExpertIdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public int MarkerId {
+                get {
+                    try {
+                        return ((int)(this[this.tableExpertInMarker.MarkerIdColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'MarkerId\' in table \'ExpertInMarker\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableExpertInMarker.MarkerIdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public ExpertRow ExpertRow {
+                get {
+                    return ((ExpertRow)(this.GetParentRow(this.Table.ParentRelations["ExpertExpertInMarker"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["ExpertExpertInMarker"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public MarkerRow MarkerRow {
+                get {
+                    return ((MarkerRow)(this.GetParentRow(this.Table.ParentRelations["MarkerExpertInMarker"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["MarkerExpertInMarker"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsExpertIdNull() {
+                return this.IsNull(this.tableExpertInMarker.ExpertIdColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetExpertIdNull() {
+                this[this.tableExpertInMarker.ExpertIdColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsMarkerIdNull() {
+                return this.IsNull(this.tableExpertInMarker.MarkerIdColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetMarkerIdNull() {
+                this[this.tableExpertInMarker.MarkerIdColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -3144,6 +3564,17 @@ namespace ExpertMap.DataModels {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetImageNameNull() {
                 this[this.tableMarker.ImageNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public ExpertInMarkerRow[] GetExpertInMarkerRows() {
+                if ((this.Table.ChildRelations["MarkerExpertInMarker"] == null)) {
+                    return new ExpertInMarkerRow[0];
+                }
+                else {
+                    return ((ExpertInMarkerRow[])(base.GetChildRows(this.Table.ChildRelations["MarkerExpertInMarker"])));
+                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3435,6 +3866,40 @@ namespace ExpertMap.DataModels {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public ExpertRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        public class ExpertInMarkerRowChangeEvent : global::System.EventArgs {
+            
+            private ExpertInMarkerRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public ExpertInMarkerRowChangeEvent(ExpertInMarkerRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public ExpertInMarkerRow Row {
                 get {
                     return this.eventRow;
                 }
@@ -4454,6 +4919,242 @@ namespace ExpertMap.DataModels.ExpertMapDataSetTableAdapters {
             finally {
                 if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
                     this.Adapter.UpdateCommand.Connection.Close();
+                }
+            }
+        }
+    }
+    
+    /// <summary>
+    ///Represents the connection and commands used to retrieve and save data.
+    ///</summary>
+    [global::System.ComponentModel.DesignerCategoryAttribute("code")]
+    [global::System.ComponentModel.ToolboxItem(true)]
+    [global::System.ComponentModel.DataObjectAttribute(true)]
+    [global::System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
+        ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
+    [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+    public partial class ExpertInMarkerTableAdapter : global::System.ComponentModel.Component {
+        
+        private global::System.Data.OleDb.OleDbDataAdapter _adapter;
+        
+        private global::System.Data.OleDb.OleDbConnection _connection;
+        
+        private global::System.Data.OleDb.OleDbTransaction _transaction;
+        
+        private global::System.Data.OleDb.OleDbCommand[] _commandCollection;
+        
+        private bool _clearBeforeFill;
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        public ExpertInMarkerTableAdapter() {
+            this.ClearBeforeFill = true;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        protected internal global::System.Data.OleDb.OleDbDataAdapter Adapter {
+            get {
+                if ((this._adapter == null)) {
+                    this.InitAdapter();
+                }
+                return this._adapter;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        internal global::System.Data.OleDb.OleDbConnection Connection {
+            get {
+                if ((this._connection == null)) {
+                    this.InitConnection();
+                }
+                return this._connection;
+            }
+            set {
+                this._connection = value;
+                if ((this.Adapter.InsertCommand != null)) {
+                    this.Adapter.InsertCommand.Connection = value;
+                }
+                if ((this.Adapter.DeleteCommand != null)) {
+                    this.Adapter.DeleteCommand.Connection = value;
+                }
+                if ((this.Adapter.UpdateCommand != null)) {
+                    this.Adapter.UpdateCommand.Connection = value;
+                }
+                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
+                    if ((this.CommandCollection[i] != null)) {
+                        ((global::System.Data.OleDb.OleDbCommand)(this.CommandCollection[i])).Connection = value;
+                    }
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        internal global::System.Data.OleDb.OleDbTransaction Transaction {
+            get {
+                return this._transaction;
+            }
+            set {
+                this._transaction = value;
+                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
+                    this.CommandCollection[i].Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.DeleteCommand != null))) {
+                    this.Adapter.DeleteCommand.Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.InsertCommand != null))) {
+                    this.Adapter.InsertCommand.Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.UpdateCommand != null))) {
+                    this.Adapter.UpdateCommand.Transaction = this._transaction;
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        protected global::System.Data.OleDb.OleDbCommand[] CommandCollection {
+            get {
+                if ((this._commandCollection == null)) {
+                    this.InitCommandCollection();
+                }
+                return this._commandCollection;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        public bool ClearBeforeFill {
+            get {
+                return this._clearBeforeFill;
+            }
+            set {
+                this._clearBeforeFill = value;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        private void InitAdapter() {
+            this._adapter = new global::System.Data.OleDb.OleDbDataAdapter();
+            global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
+            tableMapping.SourceTable = "Table";
+            tableMapping.DataSetTable = "ExpertInMarker";
+            tableMapping.ColumnMappings.Add("ExpertId", "ExpertId");
+            tableMapping.ColumnMappings.Add("MarkerId", "MarkerId");
+            this._adapter.TableMappings.Add(tableMapping);
+            this._adapter.InsertCommand = new global::System.Data.OleDb.OleDbCommand();
+            this._adapter.InsertCommand.Connection = this.Connection;
+            this._adapter.InsertCommand.CommandText = "INSERT INTO `ExpertInMarker` (`ExpertId`, `MarkerId`) VALUES (?, ?)";
+            this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("ExpertId", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ExpertId", global::System.Data.DataRowVersion.Current, false, null));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("MarkerId", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "MarkerId", global::System.Data.DataRowVersion.Current, false, null));
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        private void InitConnection() {
+            this._connection = new global::System.Data.OleDb.OleDbConnection();
+            this._connection.ConnectionString = global::ExpertMap.Properties.Settings.Default.ExpertMapDbConnectionString;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        private void InitCommandCollection() {
+            this._commandCollection = new global::System.Data.OleDb.OleDbCommand[1];
+            this._commandCollection[0] = new global::System.Data.OleDb.OleDbCommand();
+            this._commandCollection[0].Connection = this.Connection;
+            this._commandCollection[0].CommandText = "SELECT ExpertId, MarkerId FROM ExpertInMarker";
+            this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
+        public virtual int Fill(ExpertMapDataSet.ExpertInMarkerDataTable dataTable) {
+            this.Adapter.SelectCommand = this.CommandCollection[0];
+            if ((this.ClearBeforeFill == true)) {
+                dataTable.Clear();
+            }
+            int returnValue = this.Adapter.Fill(dataTable);
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
+        public virtual ExpertMapDataSet.ExpertInMarkerDataTable GetData() {
+            this.Adapter.SelectCommand = this.CommandCollection[0];
+            ExpertMapDataSet.ExpertInMarkerDataTable dataTable = new ExpertMapDataSet.ExpertInMarkerDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(ExpertMapDataSet.ExpertInMarkerDataTable dataTable) {
+            return this.Adapter.Update(dataTable);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(ExpertMapDataSet dataSet) {
+            return this.Adapter.Update(dataSet, "ExpertInMarker");
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(global::System.Data.DataRow dataRow) {
+            return this.Adapter.Update(new global::System.Data.DataRow[] {
+                        dataRow});
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(global::System.Data.DataRow[] dataRows) {
+            return this.Adapter.Update(dataRows);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
+        public virtual int Insert(global::System.Nullable<int> ExpertId, global::System.Nullable<int> MarkerId) {
+            if ((ExpertId.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[0].Value = ((int)(ExpertId.Value));
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[0].Value = global::System.DBNull.Value;
+            }
+            if ((MarkerId.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[1].Value = ((int)(MarkerId.Value));
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[1].Value = global::System.DBNull.Value;
+            }
+            global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
+            if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                this.Adapter.InsertCommand.Connection.Open();
+            }
+            try {
+                int returnValue = this.Adapter.InsertCommand.ExecuteNonQuery();
+                return returnValue;
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    this.Adapter.InsertCommand.Connection.Close();
                 }
             }
         }
@@ -5945,6 +6646,8 @@ namespace ExpertMap.DataModels.ExpertMapDataSetTableAdapters {
         
         private ExpertTableAdapter _expertTableAdapter;
         
+        private ExpertInMarkerTableAdapter _expertInMarkerTableAdapter;
+        
         private ExpertQuoteTableAdapter _expertQuoteTableAdapter;
         
         private MarkerTableAdapter _markerTableAdapter;
@@ -5995,6 +6698,20 @@ namespace ExpertMap.DataModels.ExpertMapDataSetTableAdapters {
             }
             set {
                 this._expertTableAdapter = value;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.EditorAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterManagerPropertyEditor, Microso" +
+            "ft.VSDesigner, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3" +
+            "a", "System.Drawing.Design.UITypeEditor")]
+        public ExpertInMarkerTableAdapter ExpertInMarkerTableAdapter {
+            get {
+                return this._expertInMarkerTableAdapter;
+            }
+            set {
+                this._expertInMarkerTableAdapter = value;
             }
         }
         
@@ -6095,6 +6812,10 @@ namespace ExpertMap.DataModels.ExpertMapDataSetTableAdapters {
                             && (this._expertTableAdapter.Connection != null))) {
                     return this._expertTableAdapter.Connection;
                 }
+                if (((this._expertInMarkerTableAdapter != null) 
+                            && (this._expertInMarkerTableAdapter.Connection != null))) {
+                    return this._expertInMarkerTableAdapter.Connection;
+                }
                 if (((this._expertQuoteTableAdapter != null) 
                             && (this._expertQuoteTableAdapter.Connection != null))) {
                     return this._expertQuoteTableAdapter.Connection;
@@ -6132,6 +6853,9 @@ namespace ExpertMap.DataModels.ExpertMapDataSetTableAdapters {
                     count = (count + 1);
                 }
                 if ((this._expertTableAdapter != null)) {
+                    count = (count + 1);
+                }
+                if ((this._expertInMarkerTableAdapter != null)) {
                     count = (count + 1);
                 }
                 if ((this._expertQuoteTableAdapter != null)) {
@@ -6205,6 +6929,15 @@ namespace ExpertMap.DataModels.ExpertMapDataSetTableAdapters {
                     allChangedRows.AddRange(updatedRows);
                 }
             }
+            if ((this._expertInMarkerTableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.ExpertInMarker.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
+                if (((updatedRows != null) 
+                            && (0 < updatedRows.Length))) {
+                    result = (result + this._expertInMarkerTableAdapter.Update(updatedRows));
+                    allChangedRows.AddRange(updatedRows);
+                }
+            }
             if ((this._expertQuoteTableAdapter != null)) {
                 global::System.Data.DataRow[] updatedRows = dataSet.ExpertQuote.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
                 updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
@@ -6273,6 +7006,14 @@ namespace ExpertMap.DataModels.ExpertMapDataSetTableAdapters {
                     allAddedRows.AddRange(addedRows);
                 }
             }
+            if ((this._expertInMarkerTableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.ExpertInMarker.Select(null, null, global::System.Data.DataViewRowState.Added);
+                if (((addedRows != null) 
+                            && (0 < addedRows.Length))) {
+                    result = (result + this._expertInMarkerTableAdapter.Update(addedRows));
+                    allAddedRows.AddRange(addedRows);
+                }
+            }
             if ((this._expertQuoteTableAdapter != null)) {
                 global::System.Data.DataRow[] addedRows = dataSet.ExpertQuote.Select(null, null, global::System.Data.DataViewRowState.Added);
                 if (((addedRows != null) 
@@ -6312,6 +7053,14 @@ namespace ExpertMap.DataModels.ExpertMapDataSetTableAdapters {
                 if (((deletedRows != null) 
                             && (0 < deletedRows.Length))) {
                     result = (result + this._expertQuoteTableAdapter.Update(deletedRows));
+                    allChangedRows.AddRange(deletedRows);
+                }
+            }
+            if ((this._expertInMarkerTableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.ExpertInMarker.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+                if (((deletedRows != null) 
+                            && (0 < deletedRows.Length))) {
+                    result = (result + this._expertInMarkerTableAdapter.Update(deletedRows));
                     allChangedRows.AddRange(deletedRows);
                 }
             }
@@ -6404,6 +7153,11 @@ namespace ExpertMap.DataModels.ExpertMapDataSetTableAdapters {
                 throw new global::System.ArgumentException("All TableAdapters managed by a TableAdapterManager must use the same connection s" +
                         "tring.");
             }
+            if (((this._expertInMarkerTableAdapter != null) 
+                        && (this.MatchTableAdapterConnection(this._expertInMarkerTableAdapter.Connection) == false))) {
+                throw new global::System.ArgumentException("All TableAdapters managed by a TableAdapterManager must use the same connection s" +
+                        "tring.");
+            }
             if (((this._expertQuoteTableAdapter != null) 
                         && (this.MatchTableAdapterConnection(this._expertQuoteTableAdapter.Connection) == false))) {
                 throw new global::System.ArgumentException("All TableAdapters managed by a TableAdapterManager must use the same connection s" +
@@ -6477,6 +7231,15 @@ namespace ExpertMap.DataModels.ExpertMapDataSetTableAdapters {
                     if (this._expertTableAdapter.Adapter.AcceptChangesDuringUpdate) {
                         this._expertTableAdapter.Adapter.AcceptChangesDuringUpdate = false;
                         adaptersWithAcceptChangesDuringUpdate.Add(this._expertTableAdapter.Adapter);
+                    }
+                }
+                if ((this._expertInMarkerTableAdapter != null)) {
+                    revertConnections.Add(this._expertInMarkerTableAdapter, this._expertInMarkerTableAdapter.Connection);
+                    this._expertInMarkerTableAdapter.Connection = ((global::System.Data.OleDb.OleDbConnection)(workConnection));
+                    this._expertInMarkerTableAdapter.Transaction = ((global::System.Data.OleDb.OleDbTransaction)(workTransaction));
+                    if (this._expertInMarkerTableAdapter.Adapter.AcceptChangesDuringUpdate) {
+                        this._expertInMarkerTableAdapter.Adapter.AcceptChangesDuringUpdate = false;
+                        adaptersWithAcceptChangesDuringUpdate.Add(this._expertInMarkerTableAdapter.Adapter);
                     }
                 }
                 if ((this._expertQuoteTableAdapter != null)) {
@@ -6589,6 +7352,10 @@ namespace ExpertMap.DataModels.ExpertMapDataSetTableAdapters {
                 if ((this._expertTableAdapter != null)) {
                     this._expertTableAdapter.Connection = ((global::System.Data.OleDb.OleDbConnection)(revertConnections[this._expertTableAdapter]));
                     this._expertTableAdapter.Transaction = null;
+                }
+                if ((this._expertInMarkerTableAdapter != null)) {
+                    this._expertInMarkerTableAdapter.Connection = ((global::System.Data.OleDb.OleDbConnection)(revertConnections[this._expertInMarkerTableAdapter]));
+                    this._expertInMarkerTableAdapter.Transaction = null;
                 }
                 if ((this._expertQuoteTableAdapter != null)) {
                     this._expertQuoteTableAdapter.Connection = ((global::System.Data.OleDb.OleDbConnection)(revertConnections[this._expertQuoteTableAdapter]));

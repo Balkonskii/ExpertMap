@@ -10,3 +10,4 @@ E:\dev\ExpertMap\ExpertMap\obj\Release\ExpertMap.Properties.Resources.resources
 E:\dev\ExpertMap\ExpertMap\obj\Release\ExpertMap.csproj.GenerateResource.Cache
 E:\dev\ExpertMap\ExpertMap\obj\Release\ExpertMap.exe
 E:\dev\ExpertMap\ExpertMap\obj\Release\ExpertMap.pdb
+E:\dev\ExpertMap\ExpertMap\obj\Release\ExpertMap.csprojResolveAssemblyReference.cache
