@@ -1,0 +1,13 @@
+E:\dev\ExpertMap\ExpertMap\bin\Debug\ExpertMap.exe
+E:\dev\ExpertMap\ExpertMap\bin\Debug\ExpertMap.pdb
+E:\dev\ExpertMap\ExpertMap\obj\Debug\ExpertMap.csprojResolveAssemblyReference.cache
+E:\dev\ExpertMap\ExpertMap\obj\Debug\ExpertMap.Properties.Resources.resources
+E:\dev\ExpertMap\ExpertMap\obj\Debug\ExpertMap.csproj.GenerateResource.Cache
+E:\dev\ExpertMap\ExpertMap\obj\Debug\ExpertMap.exe
+E:\dev\ExpertMap\ExpertMap\obj\Debug\ExpertMap.pdb
+E:\dev\ExpertMap\ExpertMap\bin\Debug\ExpertMap.exe.config
+E:\dev\ExpertMap\ExpertMap\obj\Debug\ExpertMap.MainForm.resources
+E:\dev\ExpertMap\ExpertMap\bin\Debug\DataModels\ExpertMapDataSet.Designer.cs
+E:\dev\ExpertMap\ExpertMap\bin\Debug\DataModels\ExpertMapDataSet.xsc
+E:\dev\ExpertMap\ExpertMap\bin\Debug\DataModels\ExpertMapDataSet.xsd
+E:\dev\ExpertMap\ExpertMap\bin\Debug\DataModels\ExpertMapDataSet.xss
