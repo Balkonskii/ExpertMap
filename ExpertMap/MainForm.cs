@@ -9,6 +9,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using ExpertMap.DbTools;
 
 namespace ExpertMap
 {
@@ -21,20 +22,13 @@ namespace ExpertMap
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            ExpertMapDataSet ds = new ExpertMapDataSet();
-            DataTableReader reader = ds.CreateDataReader(ds.Country);
-
             string cs = Properties.Settings.Default.ExpertMapDbConnectionString;
+            dataGridView1.DataSource = DbHelper.GetInstance(cs).ExpertMapDataSet.Country;
 
-            OleDbConnection connection = new OleDbConnection(cs);
+            dataGridView1.DataSource = null;
+            dataGridView1.Refresh();
 
-            OleDbCommand command = connection.CreateCommand();
-            command.CommandType = CommandType.TableDirect;
-            command.CommandText = "Country";
-
-            connection.Open();
-
-            ds.Country.Load(command.ExecuteReader());
+            dataGridView1.DataSource = DbHelper.GetInstance().ExpertMapDataSet.Country;
         }
     }
 }
