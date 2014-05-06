@@ -2,8 +2,9 @@ E:\dev\ExpertMap\ExpertMap\bin\x86\Debug\ExpertMapDb.accdb
 E:\dev\ExpertMap\ExpertMap\bin\x86\Debug\ExpertMap.exe.config
 E:\dev\ExpertMap\ExpertMap\bin\x86\Debug\ExpertMap.exe
 E:\dev\ExpertMap\ExpertMap\bin\x86\Debug\ExpertMap.pdb
-E:\dev\ExpertMap\ExpertMap\obj\x86\Debug\ExpertMap.MainForm.resources
 E:\dev\ExpertMap\ExpertMap\obj\x86\Debug\ExpertMap.Properties.Resources.resources
 E:\dev\ExpertMap\ExpertMap\obj\x86\Debug\ExpertMap.csproj.GenerateResource.Cache
 E:\dev\ExpertMap\ExpertMap\obj\x86\Debug\ExpertMap.exe
 E:\dev\ExpertMap\ExpertMap\obj\x86\Debug\ExpertMap.pdb
+E:\dev\ExpertMap\ExpertMap\obj\x86\Debug\ExpertMap.csprojResolveAssemblyReference.cache
+E:\dev\ExpertMap\ExpertMap\obj\x86\Debug\ExpertMap.Forms.MainForm.resources
