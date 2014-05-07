@@ -1884,7 +1884,7 @@ namespace ExpertMap.DataModels {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public MarkerRow AddMarkerRow(short X, short Y, string ImagePath, string ImageName) {
+            public MarkerRow AddMarkerRow(int X, int Y, string ImagePath, string ImageName) {
                 MarkerRow rowMarkerRow = ((MarkerRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
@@ -1933,9 +1933,9 @@ namespace ExpertMap.DataModels {
             private void InitClass() {
                 this.columnId = new global::System.Data.DataColumn("Id", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnId);
-                this.columnX = new global::System.Data.DataColumn("X", typeof(short), null, global::System.Data.MappingType.Element);
+                this.columnX = new global::System.Data.DataColumn("X", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnX);
-                this.columnY = new global::System.Data.DataColumn("Y", typeof(short), null, global::System.Data.MappingType.Element);
+                this.columnY = new global::System.Data.DataColumn("Y", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnY);
                 this.columnImagePath = new global::System.Data.DataColumn("ImagePath", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnImagePath);
@@ -3456,10 +3456,10 @@ namespace ExpertMap.DataModels {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public short X {
+            public int X {
                 get {
                     try {
-                        return ((short)(this[this.tableMarker.XColumn]));
+                        return ((int)(this[this.tableMarker.XColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'X\' in table \'Marker\' is DBNull.", e);
@@ -3472,10 +3472,10 @@ namespace ExpertMap.DataModels {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public short Y {
+            public int Y {
                 get {
                     try {
-                        return ((short)(this[this.tableMarker.YColumn]));
+                        return ((int)(this[this.tableMarker.YColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'Y\' in table \'Marker\' is DBNull.", e);
