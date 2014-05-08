@@ -6,13 +6,13 @@ using System.Windows.Forms;
 
 namespace ExpertMap.Models
 {
-   public class MarkerPanel : Panel
-    {
-        public MarkerContainer Container { get; set; }
+   //public class MarkerPanel : Panel
+   // {
+   //     public MarkerContainer Container { get; set; }
 
-       public MarkerPanel(MarkerContainer container)
-       {
-           Container = container;
-       }
-    }
+   //    public MarkerPanel(MarkerContainer container)
+   //    {
+   //        Container = container;
+   //    }
+   // }
 }

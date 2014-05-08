@@ -82,6 +82,7 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\ClickTarget.cs" />
+    <Compile Include="Models\Marker.cs" />
     <Compile Include="Models\MarkerContainer.cs" />
     <Compile Include="Models\MarkerPanel.cs">
       <SubType>Component</SubType>

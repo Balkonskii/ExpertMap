@@ -5,9 +5,6 @@ E:\dev\ExpertMap\ExpertMap\obj\Debug\ExpertMap.Properties.Resources.resources
 E:\dev\ExpertMap\ExpertMap\obj\Debug\ExpertMap.csproj.GenerateResource.Cache
 E:\dev\ExpertMap\ExpertMap\obj\Debug\ExpertMap.exe
 E:\dev\ExpertMap\ExpertMap\obj\Debug\ExpertMap.pdb
-E:\dev\ExpertMap\ExpertMap\obj\Debug\ExpertMap.MainForm.resources
 E:\dev\ExpertMap\ExpertMap\bin\Debug\ExpertMapDb.accdb
 E:\dev\ExpertMap\ExpertMap\bin\Debug\ExpertMap.exe.config
-E:\dev\ExpertMap\ExpertMap\bin\Debug\test.mdb
-E:\dev\ExpertMap\ExpertMap\bin\Debug\EntityFramework.dll
-E:\dev\ExpertMap\ExpertMap\bin\Debug\EntityFramework.xml
+E:\dev\ExpertMap\ExpertMap\obj\Debug\ExpertMap.Forms.MainForm.resources

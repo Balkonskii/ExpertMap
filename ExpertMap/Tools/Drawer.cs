@@ -31,5 +31,21 @@ namespace ExpertMap.Tools
         {
             item.Draw(graphics);
         }
+
+        public bool TryGetContainer(Point location, out DrawableItem container)
+        {
+            container = null;
+
+            foreach (DrawableItem item in DrawableItems)
+            {
+                if (item.Rectangle.Contains(location))
+                {
+                    container = item;
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }

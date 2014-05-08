@@ -29,10 +29,11 @@ namespace ExpertMap.Forms
         private const float _opacity = 1f;
 
         private ContextMenu _menu = new ContextMenu();
+        
         private Point _clickedLocation;
-        private bool _drag = false;
-        private MarkerContainer _clickedMarker;
+        private DrawableItem _clickedObject;
 
+        private bool _drag = false;
 
         public Drawer CurrentDrawer { get; set; }
 
@@ -47,14 +48,59 @@ namespace ExpertMap.Forms
             CurrentDrawer = new Drawer();
         }
 
-        void pn_MouseClick(object sender, MouseEventArgs e)
-        {
-            MessageBox.Show("asd");
-        }
-
         private void LoadMarkers()
         {
 
+        }
+
+        private void SaveMarker(Point location, string filename, int? region)
+        {
+            var point = Functions.ModifyToFormPoint(location, CurrentDelta);
+
+            ExpertMap.DataModels.ExpertMapDataSet.MarkerRow markerRow =
+                DbHelper.GetInstance().ExpertMapDataSet.Marker.AddMarkerRow(point.X, point.Y, string.Empty, filename);
+
+            if (region.HasValue)
+            {
+                if (DbHelper.GetInstance().ExpertMapDataSet.Region.Any(x => x.Id == region.Value))
+                {
+                    var regionRow =
+                        DbHelper.GetInstance().ExpertMapDataSet.Region.Where(x => x.Id == region.Value).FirstOrDefault();
+                    DbHelper.GetInstance().ExpertMapDataSet.MarkerInRegion.AddMarkerInRegionRow(markerRow, regionRow);
+                }
+            }
+
+            DbHelper.GetInstance().ExpertMapDataSet.AcceptChanges();
+        }
+
+        private void ShowContextMenu(ClickTarget target)
+        {
+            _menu = new ContextMenu();
+
+            var addMenuItem = new MenuItem("Добавить маркер", AddMarkerItem_Click);
+            var editMenuItem = new MenuItem("Редактировать маркер", EditMarkerItem_Click);
+            var replaceMenuItem = new MenuItem("Переместить маркер", ReplaceMarkerItem_Click);
+            var removeMenuItem = new MenuItem("Удалить маркер", RemoveMarkerItem_Click);
+
+            var menuItems = new MenuItem[1];
+
+            switch (target)
+            {
+                case ClickTarget.Map:
+                    menuItems = new MenuItem[] { addMenuItem };
+                    break;
+                case ClickTarget.Marker:
+                    menuItems = new MenuItem[] { editMenuItem, replaceMenuItem, removeMenuItem };
+                    break;
+                case ClickTarget.Region:
+                    menuItems = new MenuItem[] { addMenuItem };
+                    break;
+                default:
+                    break;
+            }
+
+            _menu.MenuItems.AddRange(menuItems);
+            _menu.Show(pbMap, _clickedLocation);
         }
 
         private void LoadDrawableItems()
@@ -82,28 +128,16 @@ namespace ExpertMap.Forms
             CurrentDrawer.DrawItems(pbMap.CreateGraphics());
         }
 
-        private MarkerContainer CreateMarker(Image image, int X, int Y)
+        private Marker CreateMarker(Image image, int X, int Y)
         {
-            var markerContainer = new MarkerContainer(image, new Point(X, Y), pbMap);
-            markerContainer.Opacity = _opacity;
-            CurrentDrawer.DrawableItems.Add(markerContainer);
-            markerContainer.Panel.MouseUp += Panel_MouseUp;
-            return markerContainer;
-        }
-
-        private void Panel_MouseUp(object sender, MouseEventArgs e)
-        {
-            if (e.Button == System.Windows.Forms.MouseButtons.Right)
-            {
-                _clickedLocation = e.Location;
-                _clickedMarker = (sender as MarkerPanel).Container;
-                ShowContextMenu(ClickTarget.Marker, sender as Control);
-            }
+            var Marker = new Marker(image, new Point(X, Y));
+            Marker.Opacity = _opacity;
+            CurrentDrawer.DrawableItems.Add(Marker);
+            return Marker;
         }
 
         private void pbMap_Paint(object sender, PaintEventArgs e)
         {
-
             try
             {
                 CurrentDrawer.DrawItems(e.Graphics);
@@ -114,60 +148,9 @@ namespace ExpertMap.Forms
             }
         }
 
-        private void ShowContextMenu(ClickTarget target, Control parent)
-        {
-            _menu = new ContextMenu();
-
-            var addMenuItem = new MenuItem("Добавить маркер", AddMarkerItem_Click);
-            var editMenuItem = new MenuItem("Редактировать маркер", EditMarkerItem_Click);
-            var replaceMenuItem = new MenuItem("Переместить маркер", ReplaceMarkerItem_Click);
-            var removeMenuItem = new MenuItem("Удалить маркер", RemoveMarkerItem_Click);
-
-            var menuItems = new MenuItem[1];
-
-            switch (target)
-            {
-                case ClickTarget.Map:
-                    menuItems = new MenuItem[] { addMenuItem };
-                    break;
-                case ClickTarget.Marker:
-                    menuItems = new MenuItem[] { editMenuItem, replaceMenuItem, removeMenuItem };
-                    break;
-                case ClickTarget.Region:
-                    menuItems = new MenuItem[] { addMenuItem };
-                    break;
-                default:
-                    break;
-            }
-
-            _menu.MenuItems.AddRange(menuItems);
-            _menu.Show(parent, _clickedLocation);
-        }
-
-
         private void MainForm_Load(object sender, EventArgs e)
         {
             LoadDrawableItems();
-        }
-
-        private void SaveMarker(Point location, string filename, int? region)
-        {
-            var point = Functions.ModifyToFormPoint(location, CurrentDelta);
-
-            ExpertMap.DataModels.ExpertMapDataSet.MarkerRow markerRow =
-                DbHelper.GetInstance().ExpertMapDataSet.Marker.AddMarkerRow(point.X, point.Y, string.Empty, filename);
-
-            if (region.HasValue)
-            {
-                if (DbHelper.GetInstance().ExpertMapDataSet.Region.Any(x => x.Id == region.Value))
-                {
-                    var regionRow = 
-                        DbHelper.GetInstance().ExpertMapDataSet.Region.Where(x => x.Id == region.Value).FirstOrDefault();
-                    DbHelper.GetInstance().ExpertMapDataSet.MarkerInRegion.AddMarkerInRegionRow(markerRow, regionRow);
-                }
-            }
-
-            DbHelper.GetInstance().ExpertMapDataSet.AcceptChanges();
         }
 
         private void AddMarkerItem_Click(object sender, EventArgs e)
@@ -200,16 +183,34 @@ namespace ExpertMap.Forms
 
         private void pbMap_MouseUp(object sender, MouseEventArgs e)
         {
-            if (e.Button == System.Windows.Forms.MouseButtons.Right)
+            if (e.Button == System.Windows.Forms.MouseButtons.Right && !_drag)
             {
                 _clickedLocation = e.Location;
-                ShowContextMenu(ClickTarget.Map, pbMap);
+                DrawableItem item = null;
+
+                if (CurrentDrawer.TryGetContainer(e.Location, out item))
+                {
+                    _clickedObject = item;
+
+                    if (item is Marker)
+                    {
+                        ShowContextMenu(ClickTarget.Marker);
+                    }
+                    else
+                    {
+                        //todo: region
+                    }
+                }
+                else
+                    ShowContextMenu(ClickTarget.Map);
             }
             else if (e.Button == System.Windows.Forms.MouseButtons.Left && _drag)
             {
-                _clickedMarker.DefaultLocation = Functions.ModifyToBasePoint(
-                    new Point(_clickedMarker.DrawableLocation.X + _clickedMarker.Panel.Width / 2,
-                              _clickedMarker.DrawableLocation.Y + _clickedMarker.Panel.Height / 2),
+                var marker = (_clickedObject as Marker);
+
+                marker.DefaultLocation = Functions.ModifyToBasePoint(
+                    new Point(marker.Rectangle.Location.X + marker.Rectangle.Width / 2,
+                              marker.Rectangle.Location.Y + marker.Rectangle.Height / 2),
                     CurrentDelta);
 
                 _drag = false;
@@ -220,12 +221,12 @@ namespace ExpertMap.Forms
         {
             if (_drag)
             {
-                pbMap.Invalidate(new Rectangle(_clickedMarker.DrawableLocation, _clickedMarker.Panel.Size));
+                var marker = (_clickedObject as Marker);
 
-                _clickedMarker.DrawableLocation = 
-                    new Point(e.Location.X - _clickedMarker.Panel.Width / 2, 
-                              e.Location.Y - _clickedMarker.Panel.Height / 2);
-                //pbMap.Refresh();
+                pbMap.Invalidate(marker.Rectangle);
+
+                marker.Rectangle = new Rectangle(new Point(e.Location.X - marker.Rectangle.Width, 
+                    e.Location.Y - marker.Rectangle.Height), marker.Rectangle.Size);
             }
         }
     }
