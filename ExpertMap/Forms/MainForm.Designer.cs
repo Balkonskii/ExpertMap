@@ -57,6 +57,7 @@
             this.pbMap.TabIndex = 0;
             this.pbMap.TabStop = false;
             this.pbMap.Paint += new System.Windows.Forms.PaintEventHandler(this.pbMap_Paint);
+            this.pbMap.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbMap_MouseMove);
             this.pbMap.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbMap_MouseUp);
             this.pbMap.Resize += new System.EventHandler(this.pbMap_Resize);
             // 

@@ -83,6 +83,9 @@
     </Compile>
     <Compile Include="Models\ClickTarget.cs" />
     <Compile Include="Models\MarkerContainer.cs" />
+    <Compile Include="Models\MarkerPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\Drawer.cs" />

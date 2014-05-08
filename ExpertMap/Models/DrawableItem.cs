@@ -11,8 +11,13 @@ namespace ExpertMap.Models
         private Point _drawableLocation = new Point();
 
         public float Opacity { get; set; }
+
         public abstract void Draw(Graphics graphics);
         public abstract void RecalcCoordinates(PointF delta);
+
+        /// <summary>
+        /// левый верхний угол
+        /// </summary>
         public Point DrawableLocation
         {
             get { return _drawableLocation; }
