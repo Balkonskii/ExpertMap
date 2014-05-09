@@ -44,13 +44,8 @@ namespace ExpertMap.Forms
 
         private void Init()
         {
-            DbHelper.GetInstance(Properties.Settings.Default.ExpertMapDbConnectionString);
+            DbHelper.GetInstance();
             CurrentDrawer = new Drawer();
-        }
-
-        private void LoadMarkers()
-        {
-
         }
 
         private void SaveMarker(Point location, string filename, int? region)

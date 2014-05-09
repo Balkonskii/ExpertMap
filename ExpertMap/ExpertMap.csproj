@@ -69,17 +69,57 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataModels\ExpertMapDataSet.cs">
+      <DependentUpon>ExpertMapDataSet.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="DataModels\ExpertMapDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ExpertMapDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="DbTools\DbHelper.cs" />
+    <Compile Include="Forms\EditCountryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\EditCountryForm.Designer.cs">
+      <DependentUpon>EditCountryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\EditExpertForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\EditExpertForm.Designer.cs">
+      <DependentUpon>EditExpertForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\EditRegionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\EditRegionForm.Designer.cs">
+      <DependentUpon>EditRegionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\EditSpecializationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\EditSpecializationForm.Designer.cs">
+      <DependentUpon>EditSpecializationForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ExpertTableForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ExpertTableForm.Designer.cs">
+      <DependentUpon>ExpertTableForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\RegionListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\RegionListForm.Designer.cs">
+      <DependentUpon>RegionListForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\ClickTarget.cs" />
     <Compile Include="Models\Marker.cs" />
@@ -92,8 +132,26 @@
     <Compile Include="Tools\Drawer.cs" />
     <Compile Include="Models\DrawableItem.cs" />
     <Compile Include="Tools\Functions.cs" />
+    <EmbeddedResource Include="Forms\EditCountryForm.resx">
+      <DependentUpon>EditCountryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EditExpertForm.resx">
+      <DependentUpon>EditExpertForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EditRegionForm.resx">
+      <DependentUpon>EditRegionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EditSpecializationForm.resx">
+      <DependentUpon>EditSpecializationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ExpertTableForm.resx">
+      <DependentUpon>ExpertTableForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\RegionListForm.resx">
+      <DependentUpon>RegionListForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

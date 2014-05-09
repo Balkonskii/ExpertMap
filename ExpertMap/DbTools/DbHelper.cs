@@ -30,7 +30,7 @@ namespace ExpertMap.DbTools
         {
             if (_instance == null)
             {
-                _instance = new DbHelper();                
+                _instance = new DbHelper(Properties.Settings.Default.ExpertMapDbConnectionString);                
             }
 
             return _instance;
@@ -54,10 +54,11 @@ namespace ExpertMap.DbTools
             }
         }
 
-        private void Init()
+        public DbHelper Init()
         {
             ExpertMapDataSet = new ExpertMapDataSet();
             FillDataSet(ExpertMapDataSet);
+            return this;
         }
 
         public void FillDataTable(DataTable table)
@@ -72,7 +73,7 @@ namespace ExpertMap.DbTools
                 conn.Open();
                 var reader = command.ExecuteReader();
 
-                table.Load(reader);
+                table.Load(reader, LoadOption.OverwriteChanges);
             }
             catch (Exception exc)
             {
@@ -82,6 +83,32 @@ namespace ExpertMap.DbTools
             {
                 conn.Close();
             }
+        }
+
+        public DataRow GetEmptyRow(DataTable table)
+        {
+            var row = table.NewRow();
+
+            foreach (DataColumn column in table.Columns)
+            {
+                if (DBNull.Value.Equals(row[column]))
+                {
+                    row[column] = GetDefault(column.DataType);
+                }
+            }
+            
+            return row;
+        }
+
+        public object GetDefault(Type t)
+        {
+            if (t.Name == "String") return string.Empty;
+            return this.GetType().GetMethod("GetDefaultGeneric").MakeGenericMethod(t).Invoke(this, null);
+        }
+
+        public T GetDefaultGeneric<T>()
+        {
+            return default(T);
         }
     }
 }

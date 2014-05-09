@@ -2,9 +2,15 @@ E:\dev\ExpertMap\ExpertMap\bin\x86\Debug\ExpertMapDb.accdb
 E:\dev\ExpertMap\ExpertMap\bin\x86\Debug\ExpertMap.exe.config
 E:\dev\ExpertMap\ExpertMap\bin\x86\Debug\ExpertMap.exe
 E:\dev\ExpertMap\ExpertMap\bin\x86\Debug\ExpertMap.pdb
-E:\dev\ExpertMap\ExpertMap\obj\x86\Debug\ExpertMap.csprojResolveAssemblyReference.cache
+E:\dev\ExpertMap\ExpertMap\obj\x86\Debug\ExpertMap.Forms.ExpertTableForm.resources
 E:\dev\ExpertMap\ExpertMap\obj\x86\Debug\ExpertMap.Forms.MainForm.resources
 E:\dev\ExpertMap\ExpertMap\obj\x86\Debug\ExpertMap.Properties.Resources.resources
 E:\dev\ExpertMap\ExpertMap\obj\x86\Debug\ExpertMap.csproj.GenerateResource.Cache
 E:\dev\ExpertMap\ExpertMap\obj\x86\Debug\ExpertMap.exe
 E:\dev\ExpertMap\ExpertMap\obj\x86\Debug\ExpertMap.pdb
+E:\dev\ExpertMap\ExpertMap\obj\x86\Debug\ExpertMap.csprojResolveAssemblyReference.cache
+E:\dev\ExpertMap\ExpertMap\obj\x86\Debug\ExpertMap.Forms.RegionListForm.resources
+E:\dev\ExpertMap\ExpertMap\obj\x86\Debug\ExpertMap.Forms.EditCountryForm.resources
+E:\dev\ExpertMap\ExpertMap\obj\x86\Debug\ExpertMap.Forms.EditExpertForm.resources
+E:\dev\ExpertMap\ExpertMap\obj\x86\Debug\ExpertMap.Forms.EditRegionForm.resources
+E:\dev\ExpertMap\ExpertMap\obj\x86\Debug\ExpertMap.Forms.EditSpecializationForm.resources
