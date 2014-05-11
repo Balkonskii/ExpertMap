@@ -5,6 +5,7 @@ using System.Text;
 using ExpertMap.DataModels;
 using System.Data;
 using System.Data.OleDb;
+using System.Drawing;
 
 namespace ExpertMap.DbTools
 {
@@ -109,6 +110,21 @@ namespace ExpertMap.DbTools
         public T GetDefaultGeneric<T>()
         {
             return default(T);
+        }
+
+        public void SaveRegionPoints(ExpertMap.Models.Region region)
+        {
+            var adapter = new ExpertMap.DataModels.ExpertMapDataSetTableAdapters.RegionPointsTableAdapter();
+
+            for (int i = 0; i < region.Points.Count; i++)
+            {
+                adapter.Insert(region.RegionId, region.Points[i].X, region.Points[i].Y, (i + 1));
+            }
+        }
+
+        public void SaveMarker()
+        {
+ 
         }
     }
 }

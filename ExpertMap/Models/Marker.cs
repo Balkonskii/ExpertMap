@@ -13,12 +13,16 @@ namespace ExpertMap.Models
         public Point DefaultLocation { get; set; }
 
         private Image _image;
+        private string _imageName = string.Empty;
 
-        public Marker(Image image, Point point)
+        public string ImageName { get { return _imageName; } }
+
+        public Marker(Image image,string imageName, Point point)
             : base(new Rectangle(point, image.Size))
         {
             _image = image;
             DefaultLocation = point;
+            _imageName = imageName;
         }
 
         public override void Draw(System.Drawing.Graphics graphics)
@@ -38,7 +42,7 @@ namespace ExpertMap.Models
 
         public override void RecalcCoordinates(System.Drawing.PointF delta)
         {
-            Rectangle = new Rectangle(Functions.ModifyToFormPoint(DefaultLocation, delta), Rectangle.Size);            
+            Rectangle = new Rectangle(Drawer.ModifyToFormPoint(DefaultLocation, delta), Rectangle.Size);            
         }
     }
 }

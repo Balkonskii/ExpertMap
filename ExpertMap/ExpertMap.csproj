@@ -79,6 +79,12 @@
       <DependentUpon>ExpertMapDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="DbTools\DbHelper.cs" />
+    <Compile Include="Forms\CountryListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\CountryListForm.Designer.cs">
+      <DependentUpon>CountryListForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\EditCountryForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -121,17 +127,24 @@
     <Compile Include="Forms\RegionListForm.Designer.cs">
       <DependentUpon>RegionListForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\SpecializationListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SpecializationListForm.Designer.cs">
+      <DependentUpon>SpecializationListForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ClickTarget.cs" />
+    <Compile Include="Models\ImageItem.cs" />
     <Compile Include="Models\Marker.cs" />
     <Compile Include="Models\MarkerContainer.cs" />
-    <Compile Include="Models\MarkerPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Models\Region.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\Drawer.cs" />
     <Compile Include="Models\DrawableItem.cs" />
-    <Compile Include="Tools\Functions.cs" />
+    <EmbeddedResource Include="Forms\CountryListForm.resx">
+      <DependentUpon>CountryListForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\EditCountryForm.resx">
       <DependentUpon>EditCountryForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -152,6 +165,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\RegionListForm.resx">
       <DependentUpon>RegionListForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SpecializationListForm.resx">
+      <DependentUpon>SpecializationListForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -195,6 +211,12 @@
     <Content Include="ExpertMapDb.accdb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\Черный.png" />
+    <None Include="Resources\Фиолетовый.png" />
+    <None Include="Resources\Серый.png" />
+    <None Include="Resources\Зеленый.png" />
+    <None Include="Resources\Желтый.png" />
+    <None Include="Resources\Голубой.png" />
     <None Include="Resources\star.png" />
     <None Include="Resources\worldcontur.png" />
   </ItemGroup>

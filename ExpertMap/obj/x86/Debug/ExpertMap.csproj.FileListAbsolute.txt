@@ -14,3 +14,5 @@ E:\dev\ExpertMap\ExpertMap\obj\x86\Debug\ExpertMap.Forms.EditCountryForm.resourc
 E:\dev\ExpertMap\ExpertMap\obj\x86\Debug\ExpertMap.Forms.EditExpertForm.resources
 E:\dev\ExpertMap\ExpertMap\obj\x86\Debug\ExpertMap.Forms.EditRegionForm.resources
 E:\dev\ExpertMap\ExpertMap\obj\x86\Debug\ExpertMap.Forms.EditSpecializationForm.resources
+E:\dev\ExpertMap\ExpertMap\obj\x86\Debug\ExpertMap.Forms.CountryListForm.resources
+E:\dev\ExpertMap\ExpertMap\obj\x86\Debug\ExpertMap.Forms.SpecializationListForm.resources

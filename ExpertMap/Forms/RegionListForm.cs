@@ -34,6 +34,21 @@ namespace ExpertMap.Forms
             this.regionTableAdapter.Fill(this.expertMapDataSet.Region);
         }
 
+        public ExpertMap.Models.Region SelectedRegion
+        {
+            get
+            {
+                var selectedItem = regionListBox.SelectedItem as System.Data.DataRowView;
+                var regRow = selectedItem.Row as ExpertMap.DataModels.ExpertMapDataSet.RegionRow;
+
+                return new ExpertMap.Models.Region()
+                {
+                    RegionId = regRow.Id,
+                    RegionName = regRow.Name
+                };
+            }
+        }
+
         public int SelectedRegionId
         {
             get
@@ -90,7 +105,8 @@ namespace ExpertMap.Forms
                 foreach (var row in regionPointsAdapter.GetData().Rows)
                 {
                     var rw = row as ExpertMap.DataModels.ExpertMapDataSet.RegionPointsRow;
-                    regionPointsAdapter.Delete(rw.RegionId, rw.X, rw.Y, rw.Number);
+                    if (rw.RegionId == SelectedRegionId)
+                        regionPointsAdapter.Delete(rw.RegionId, rw.X, rw.Y, rw.Number);
                 }
 
                 var markerInRegionAdapter = new DataModels.ExpertMapDataSetTableAdapters.MarkerInRegionTableAdapter();
@@ -98,11 +114,11 @@ namespace ExpertMap.Forms
                 foreach (var row in markerInRegionAdapter.GetData().Rows)
                 {
                     var rw = row as ExpertMap.DataModels.ExpertMapDataSet.MarkerInRegionRow;
-                    markerInRegionAdapter.Delete(rw.MarkerId, rw.RegionId);
+                    if (rw.RegionId == SelectedRegionId)
+                        markerInRegionAdapter.Delete(rw.MarkerId, rw.RegionId);
                 }
 
                 var region = DbHelper.GetInstance().ExpertMapDataSet.Region.Where(x => x.Id == SelectedRegionId).FirstOrDefault();
-
                 regionTableAdapter.Delete(region.Id, region.Name);
 
                 Fill();

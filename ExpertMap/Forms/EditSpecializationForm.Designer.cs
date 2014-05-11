@@ -42,6 +42,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.specializationBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
+            // nameLabel
+            // 
+            nameLabel.AutoSize = true;
+            nameLabel.Location = new System.Drawing.Point(12, 9);
+            nameLabel.Name = "nameLabel";
+            nameLabel.Size = new System.Drawing.Size(86, 13);
+            nameLabel.TabIndex = 1;
+            nameLabel.Text = "Наименование:";
+            // 
             // expertMapDataSet
             // 
             this.expertMapDataSet.DataSetName = "ExpertMapDataSet";
@@ -65,18 +74,10 @@
             this.tableAdapterManager.ExpertTableAdapter = null;
             this.tableAdapterManager.MarkerInRegionTableAdapter = null;
             this.tableAdapterManager.MarkerTableAdapter = null;
+            this.tableAdapterManager.RegionPointsTableAdapter = null;
             this.tableAdapterManager.RegionTableAdapter = null;
             this.tableAdapterManager.SpecializationTableAdapter = this.specializationTableAdapter;
             this.tableAdapterManager.UpdateOrder = ExpertMap.DataModels.ExpertMapDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
-            // 
-            // nameLabel
-            // 
-            nameLabel.AutoSize = true;
-            nameLabel.Location = new System.Drawing.Point(12, 9);
-            nameLabel.Name = "nameLabel";
-            nameLabel.Size = new System.Drawing.Size(86, 13);
-            nameLabel.TabIndex = 1;
-            nameLabel.Text = "Наименование:";
             // 
             // nameTextBox
             // 
@@ -88,6 +89,7 @@
             // 
             // btnCancel
             // 
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Location = new System.Drawing.Point(302, 32);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
@@ -103,8 +105,9 @@
             this.btnOk.TabIndex = 20;
             this.btnOk.Text = "Ок";
             this.btnOk.UseVisualStyleBackColor = true;
+            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
-            // EditSpecialization
+            // EditSpecializationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -114,7 +117,7 @@
             this.Controls.Add(nameLabel);
             this.Controls.Add(this.nameTextBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "EditSpecialization";
+            this.Name = "EditSpecializationForm";
             this.Text = "Редактирование специализации";
             this.Load += new System.EventHandler(this.EditSpecialization_Load);
             ((System.ComponentModel.ISupportInitialize)(this.expertMapDataSet)).EndInit();

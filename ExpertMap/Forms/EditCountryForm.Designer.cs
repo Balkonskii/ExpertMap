@@ -42,8 +42,18 @@
             ((System.ComponentModel.ISupportInitialize)(this.countryBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
+            // nameLabel
+            // 
+            nameLabel.AutoSize = true;
+            nameLabel.Location = new System.Drawing.Point(12, 9);
+            nameLabel.Name = "nameLabel";
+            nameLabel.Size = new System.Drawing.Size(86, 13);
+            nameLabel.TabIndex = 20;
+            nameLabel.Text = "Наименование:";
+            // 
             // btnCancel
             // 
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Location = new System.Drawing.Point(214, 32);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
@@ -59,6 +69,7 @@
             this.btnOk.TabIndex = 18;
             this.btnOk.Text = "Ок";
             this.btnOk.UseVisualStyleBackColor = true;
+            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
             // expertMapDataSet
             // 
@@ -83,18 +94,10 @@
             this.tableAdapterManager.ExpertTableAdapter = null;
             this.tableAdapterManager.MarkerInRegionTableAdapter = null;
             this.tableAdapterManager.MarkerTableAdapter = null;
+            this.tableAdapterManager.RegionPointsTableAdapter = null;
             this.tableAdapterManager.RegionTableAdapter = null;
             this.tableAdapterManager.SpecializationTableAdapter = null;
             this.tableAdapterManager.UpdateOrder = ExpertMap.DataModels.ExpertMapDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
-            // 
-            // nameLabel
-            // 
-            nameLabel.AutoSize = true;
-            nameLabel.Location = new System.Drawing.Point(12, 9);
-            nameLabel.Name = "nameLabel";
-            nameLabel.Size = new System.Drawing.Size(86, 13);
-            nameLabel.TabIndex = 20;
-            nameLabel.Text = "Наименование:";
             // 
             // nameTextBox
             // 
@@ -104,7 +107,7 @@
             this.nameTextBox.Size = new System.Drawing.Size(185, 20);
             this.nameTextBox.TabIndex = 21;
             // 
-            // EditCountry
+            // EditCountryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -114,7 +117,7 @@
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "EditCountry";
+            this.Name = "EditCountryForm";
             this.Text = "Редактирование страны";
             this.Load += new System.EventHandler(this.EditCountry_Load);
             ((System.ComponentModel.ISupportInitialize)(this.expertMapDataSet)).EndInit();

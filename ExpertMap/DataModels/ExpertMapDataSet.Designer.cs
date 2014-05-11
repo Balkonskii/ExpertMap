@@ -56,8 +56,6 @@ namespace ExpertMap.DataModels {
         
         private global::System.Data.DataRelation relationSpecializationExpert;
         
-        private global::System.Data.DataRelation relationRegionPoints_Region;
-        
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -409,7 +407,6 @@ namespace ExpertMap.DataModels {
             this.relationMarkerMarkerInRegion = this.Relations["MarkerMarkerInRegion"];
             this.relationRegionMarkerInRegion = this.Relations["RegionMarkerInRegion"];
             this.relationSpecializationExpert = this.Relations["SpecializationExpert"];
-            this.relationRegionPoints_Region = this.Relations["RegionPoints_Region"];
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -466,10 +463,6 @@ namespace ExpertMap.DataModels {
                         this.tableSpecialization.IdColumn}, new global::System.Data.DataColumn[] {
                         this.tableExpert.SpecializationIdColumn}, false);
             this.Relations.Add(this.relationSpecializationExpert);
-            this.relationRegionPoints_Region = new global::System.Data.DataRelation("RegionPoints_Region", new global::System.Data.DataColumn[] {
-                        this.tableRegionPoints.RegionIdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableRegion.IdColumn}, false);
-            this.Relations.Add(this.relationRegionPoints_Region);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2952,6 +2945,8 @@ namespace ExpertMap.DataModels {
             
             private global::System.Data.DataColumn columnNumber;
             
+            private global::System.Data.DataColumn columnId;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public RegionPointsDataTable() {
@@ -3019,6 +3014,14 @@ namespace ExpertMap.DataModels {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn IdColumn {
+                get {
+                    return this.columnId;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -3054,23 +3057,17 @@ namespace ExpertMap.DataModels {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public RegionPointsRow AddRegionPointsRow(int RegionId, short X, short Y, int Number) {
+            public RegionPointsRow AddRegionPointsRow(int RegionId, int X, int Y, int Number) {
                 RegionPointsRow rowRegionPointsRow = ((RegionPointsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         RegionId,
                         X,
                         Y,
-                        Number};
+                        Number,
+                        null};
                 rowRegionPointsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowRegionPointsRow);
                 return rowRegionPointsRow;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public RegionPointsRow FindByRegionId(int RegionId) {
-                return ((RegionPointsRow)(this.Rows.Find(new object[] {
-                            RegionId})));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3094,6 +3091,7 @@ namespace ExpertMap.DataModels {
                 this.columnX = base.Columns["X"];
                 this.columnY = base.Columns["Y"];
                 this.columnNumber = base.Columns["Number"];
+                this.columnId = base.Columns["Id"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3101,16 +3099,17 @@ namespace ExpertMap.DataModels {
             private void InitClass() {
                 this.columnRegionId = new global::System.Data.DataColumn("RegionId", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnRegionId);
-                this.columnX = new global::System.Data.DataColumn("X", typeof(short), null, global::System.Data.MappingType.Element);
+                this.columnX = new global::System.Data.DataColumn("X", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnX);
-                this.columnY = new global::System.Data.DataColumn("Y", typeof(short), null, global::System.Data.MappingType.Element);
+                this.columnY = new global::System.Data.DataColumn("Y", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnY);
                 this.columnNumber = new global::System.Data.DataColumn("Number", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnNumber);
-                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
-                                this.columnRegionId}, true));
-                this.columnRegionId.AllowDBNull = false;
-                this.columnRegionId.Unique = true;
+                this.columnId = new global::System.Data.DataColumn("Id", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnId);
+                this.columnId.AutoIncrement = true;
+                this.columnId.AutoIncrementSeed = -1;
+                this.columnId.AutoIncrementStep = -1;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4067,17 +4066,6 @@ namespace ExpertMap.DataModels {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public RegionPointsRow RegionPointsRow {
-                get {
-                    return ((RegionPointsRow)(this.GetParentRow(this.Table.ParentRelations["RegionPoints_Region"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["RegionPoints_Region"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsNameNull() {
                 return this.IsNull(this.tableRegion.NameColumn);
             }
@@ -4183,7 +4171,12 @@ namespace ExpertMap.DataModels {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public int RegionId {
                 get {
-                    return ((int)(this[this.tableRegionPoints.RegionIdColumn]));
+                    try {
+                        return ((int)(this[this.tableRegionPoints.RegionIdColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RegionId\' in table \'RegionPoints\' is DBNull.", e);
+                    }
                 }
                 set {
                     this[this.tableRegionPoints.RegionIdColumn] = value;
@@ -4192,10 +4185,10 @@ namespace ExpertMap.DataModels {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public short X {
+            public int X {
                 get {
                     try {
-                        return ((short)(this[this.tableRegionPoints.XColumn]));
+                        return ((int)(this[this.tableRegionPoints.XColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'X\' in table \'RegionPoints\' is DBNull.", e);
@@ -4208,10 +4201,10 @@ namespace ExpertMap.DataModels {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public short Y {
+            public int Y {
                 get {
                     try {
-                        return ((short)(this[this.tableRegionPoints.YColumn]));
+                        return ((int)(this[this.tableRegionPoints.YColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'Y\' in table \'RegionPoints\' is DBNull.", e);
@@ -4236,6 +4229,34 @@ namespace ExpertMap.DataModels {
                 set {
                     this[this.tableRegionPoints.NumberColumn] = value;
                 }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public int Id {
+                get {
+                    try {
+                        return ((int)(this[this.tableRegionPoints.IdColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Id\' in table \'RegionPoints\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableRegionPoints.IdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsRegionIdNull() {
+                return this.IsNull(this.tableRegionPoints.RegionIdColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetRegionIdNull() {
+                this[this.tableRegionPoints.RegionIdColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4276,13 +4297,14 @@ namespace ExpertMap.DataModels {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public RegionRow[] GetRegionRows() {
-                if ((this.Table.ChildRelations["RegionPoints_Region"] == null)) {
-                    return new RegionRow[0];
-                }
-                else {
-                    return ((RegionRow[])(base.GetChildRows(this.Table.ChildRelations["RegionPoints_Region"])));
-                }
+            public bool IsIdNull() {
+                return this.IsNull(this.tableRegionPoints.IdColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetIdNull() {
+                this[this.tableRegionPoints.IdColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -7302,45 +7324,25 @@ namespace ExpertMap.DataModels.ExpertMapDataSetTableAdapters {
             tableMapping.ColumnMappings.Add("X", "X");
             tableMapping.ColumnMappings.Add("Y", "Y");
             tableMapping.ColumnMappings.Add("Number", "Number");
+            tableMapping.ColumnMappings.Add("Id", "Id");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::System.Data.OleDb.OleDbCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = "DELETE FROM `RegionPoints` WHERE ((`RegionId` = ?) AND ((? = 1 AND `X` IS NULL) O" +
-                "R (`X` = ?)) AND ((? = 1 AND `Y` IS NULL) OR (`Y` = ?)) AND ((? = 1 AND `Number`" +
-                " IS NULL) OR (`Number` = ?)))";
+            this._adapter.DeleteCommand.CommandText = "DELETE FROM RegionPoints\r\nWHERE        (RegionId = ?) AND (X = ?) AND (Y = ?) AND" +
+                " ([Number] = ?)";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_RegionId", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "RegionId", global::System.Data.DataRowVersion.Original, false, null));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_X", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "X", global::System.Data.DataRowVersion.Original, true, null));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_X", global::System.Data.OleDb.OleDbType.SmallInt, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "X", global::System.Data.DataRowVersion.Original, false, null));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_Y", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Y", global::System.Data.DataRowVersion.Original, true, null));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_Y", global::System.Data.OleDb.OleDbType.SmallInt, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Y", global::System.Data.DataRowVersion.Original, false, null));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_Number", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Number", global::System.Data.DataRowVersion.Original, true, null));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_Number", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Number", global::System.Data.DataRowVersion.Original, false, null));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("RegionId", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "RegionId", global::System.Data.DataRowVersion.Original, false, null));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("X", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "X", global::System.Data.DataRowVersion.Original, false, null));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Y", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Y", global::System.Data.DataRowVersion.Original, false, null));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Number", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Number", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.InsertCommand = new global::System.Data.OleDb.OleDbCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
             this._adapter.InsertCommand.CommandText = "INSERT INTO `RegionPoints` (`RegionId`, `X`, `Y`, `Number`) VALUES (?, ?, ?, ?)";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("RegionId", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "RegionId", global::System.Data.DataRowVersion.Current, false, null));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("X", global::System.Data.OleDb.OleDbType.SmallInt, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "X", global::System.Data.DataRowVersion.Current, false, null));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Y", global::System.Data.OleDb.OleDbType.SmallInt, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Y", global::System.Data.DataRowVersion.Current, false, null));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("X", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "X", global::System.Data.DataRowVersion.Current, false, null));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Y", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Y", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Number", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Number", global::System.Data.DataRowVersion.Current, false, null));
-            this._adapter.UpdateCommand = new global::System.Data.OleDb.OleDbCommand();
-            this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = "UPDATE `RegionPoints` SET `RegionId` = ?, `X` = ?, `Y` = ?, `Number` = ? WHERE ((" +
-                "`RegionId` = ?) AND ((? = 1 AND `X` IS NULL) OR (`X` = ?)) AND ((? = 1 AND `Y` I" +
-                "S NULL) OR (`Y` = ?)) AND ((? = 1 AND `Number` IS NULL) OR (`Number` = ?)))";
-            this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("RegionId", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "RegionId", global::System.Data.DataRowVersion.Current, false, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("X", global::System.Data.OleDb.OleDbType.SmallInt, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "X", global::System.Data.DataRowVersion.Current, false, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Y", global::System.Data.OleDb.OleDbType.SmallInt, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Y", global::System.Data.DataRowVersion.Current, false, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Number", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Number", global::System.Data.DataRowVersion.Current, false, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_RegionId", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "RegionId", global::System.Data.DataRowVersion.Original, false, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_X", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "X", global::System.Data.DataRowVersion.Original, true, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_X", global::System.Data.OleDb.OleDbType.SmallInt, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "X", global::System.Data.DataRowVersion.Original, false, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_Y", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Y", global::System.Data.DataRowVersion.Original, true, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_Y", global::System.Data.OleDb.OleDbType.SmallInt, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Y", global::System.Data.DataRowVersion.Original, false, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_Number", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Number", global::System.Data.DataRowVersion.Original, true, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_Number", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Number", global::System.Data.DataRowVersion.Original, false, null));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -7356,7 +7358,7 @@ namespace ExpertMap.DataModels.ExpertMapDataSetTableAdapters {
             this._commandCollection = new global::System.Data.OleDb.OleDbCommand[1];
             this._commandCollection[0] = new global::System.Data.OleDb.OleDbCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT RegionId, X, Y, [Number] FROM RegionPoints";
+            this._commandCollection[0].CommandText = "SELECT RegionId, X, Y, [Number], Id FROM RegionPoints";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
@@ -7417,36 +7419,30 @@ namespace ExpertMap.DataModels.ExpertMapDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(global::System.Nullable<int> Original_RegionId, global::System.Nullable<short> Original_X, global::System.Nullable<short> Original_Y, global::System.Nullable<int> Original_Number) {
-            if ((Original_RegionId.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_RegionId.Value));
+        public virtual int Delete(global::System.Nullable<int> RegionId, global::System.Nullable<int> X, global::System.Nullable<int> Y, global::System.Nullable<int> Number) {
+            if ((RegionId.HasValue == true)) {
+                this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(RegionId.Value));
             }
             else {
                 this.Adapter.DeleteCommand.Parameters[0].Value = global::System.DBNull.Value;
             }
-            if ((Original_X.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[1].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[2].Value = ((short)(Original_X.Value));
+            if ((X.HasValue == true)) {
+                this.Adapter.DeleteCommand.Parameters[1].Value = ((int)(X.Value));
             }
             else {
-                this.Adapter.DeleteCommand.Parameters[1].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[1].Value = global::System.DBNull.Value;
+            }
+            if ((Y.HasValue == true)) {
+                this.Adapter.DeleteCommand.Parameters[2].Value = ((int)(Y.Value));
+            }
+            else {
                 this.Adapter.DeleteCommand.Parameters[2].Value = global::System.DBNull.Value;
             }
-            if ((Original_Y.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[3].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[4].Value = ((short)(Original_Y.Value));
+            if ((Number.HasValue == true)) {
+                this.Adapter.DeleteCommand.Parameters[3].Value = ((int)(Number.Value));
             }
             else {
-                this.Adapter.DeleteCommand.Parameters[3].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[4].Value = global::System.DBNull.Value;
-            }
-            if ((Original_Number.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[5].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[6].Value = ((int)(Original_Number.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[5].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[6].Value = global::System.DBNull.Value;
+                this.Adapter.DeleteCommand.Parameters[3].Value = global::System.DBNull.Value;
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -7468,7 +7464,7 @@ namespace ExpertMap.DataModels.ExpertMapDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(global::System.Nullable<int> RegionId, global::System.Nullable<short> X, global::System.Nullable<short> Y, global::System.Nullable<int> Number) {
+        public virtual int Insert(global::System.Nullable<int> RegionId, global::System.Nullable<int> X, global::System.Nullable<int> Y, global::System.Nullable<int> Number) {
             if ((RegionId.HasValue == true)) {
                 this.Adapter.InsertCommand.Parameters[0].Value = ((int)(RegionId.Value));
             }
@@ -7476,13 +7472,13 @@ namespace ExpertMap.DataModels.ExpertMapDataSetTableAdapters {
                 this.Adapter.InsertCommand.Parameters[0].Value = global::System.DBNull.Value;
             }
             if ((X.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[1].Value = ((short)(X.Value));
+                this.Adapter.InsertCommand.Parameters[1].Value = ((int)(X.Value));
             }
             else {
                 this.Adapter.InsertCommand.Parameters[1].Value = global::System.DBNull.Value;
             }
             if ((Y.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[2].Value = ((short)(Y.Value));
+                this.Adapter.InsertCommand.Parameters[2].Value = ((int)(Y.Value));
             }
             else {
                 this.Adapter.InsertCommand.Parameters[2].Value = global::System.DBNull.Value;
@@ -7507,89 +7503,6 @@ namespace ExpertMap.DataModels.ExpertMapDataSetTableAdapters {
                     this.Adapter.InsertCommand.Connection.Close();
                 }
             }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(global::System.Nullable<int> RegionId, global::System.Nullable<short> X, global::System.Nullable<short> Y, global::System.Nullable<int> Number, global::System.Nullable<int> Original_RegionId, global::System.Nullable<short> Original_X, global::System.Nullable<short> Original_Y, global::System.Nullable<int> Original_Number) {
-            if ((RegionId.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[0].Value = ((int)(RegionId.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[0].Value = global::System.DBNull.Value;
-            }
-            if ((X.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[1].Value = ((short)(X.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[1].Value = global::System.DBNull.Value;
-            }
-            if ((Y.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[2].Value = ((short)(Y.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[2].Value = global::System.DBNull.Value;
-            }
-            if ((Number.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[3].Value = ((int)(Number.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[3].Value = global::System.DBNull.Value;
-            }
-            if ((Original_RegionId.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[4].Value = ((int)(Original_RegionId.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[4].Value = global::System.DBNull.Value;
-            }
-            if ((Original_X.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[5].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[6].Value = ((short)(Original_X.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[5].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[6].Value = global::System.DBNull.Value;
-            }
-            if ((Original_Y.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[7].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[8].Value = ((short)(Original_Y.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[7].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[8].Value = global::System.DBNull.Value;
-            }
-            if ((Original_Number.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[9].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[10].Value = ((int)(Original_Number.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[9].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[10].Value = global::System.DBNull.Value;
-            }
-            global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
-            if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
-                        != global::System.Data.ConnectionState.Open)) {
-                this.Adapter.UpdateCommand.Connection.Open();
-            }
-            try {
-                int returnValue = this.Adapter.UpdateCommand.ExecuteNonQuery();
-                return returnValue;
-            }
-            finally {
-                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
-                    this.Adapter.UpdateCommand.Connection.Close();
-                }
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(global::System.Nullable<short> X, global::System.Nullable<short> Y, global::System.Nullable<int> Number, global::System.Nullable<int> Original_RegionId, global::System.Nullable<short> Original_X, global::System.Nullable<short> Original_Y, global::System.Nullable<int> Original_Number) {
-            return this.Update(Original_RegionId, X, Y, Number, Original_RegionId, Original_X, Original_Y, Original_Number);
         }
     }
     
@@ -7888,15 +7801,6 @@ namespace ExpertMap.DataModels.ExpertMapDataSetTableAdapters {
                     allChangedRows.AddRange(updatedRows);
                 }
             }
-            if ((this._regionPointsTableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.RegionPoints.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
-                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
-                if (((updatedRows != null) 
-                            && (0 < updatedRows.Length))) {
-                    result = (result + this._regionPointsTableAdapter.Update(updatedRows));
-                    allChangedRows.AddRange(updatedRows);
-                }
-            }
             if ((this._expertTableAdapter != null)) {
                 global::System.Data.DataRow[] updatedRows = dataSet.Expert.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
                 updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
@@ -7951,6 +7855,15 @@ namespace ExpertMap.DataModels.ExpertMapDataSetTableAdapters {
                     allChangedRows.AddRange(updatedRows);
                 }
             }
+            if ((this._regionPointsTableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.RegionPoints.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
+                if (((updatedRows != null) 
+                            && (0 < updatedRows.Length))) {
+                    result = (result + this._regionPointsTableAdapter.Update(updatedRows));
+                    allChangedRows.AddRange(updatedRows);
+                }
+            }
             return result;
         }
         
@@ -7974,14 +7887,6 @@ namespace ExpertMap.DataModels.ExpertMapDataSetTableAdapters {
                 if (((addedRows != null) 
                             && (0 < addedRows.Length))) {
                     result = (result + this._specializationTableAdapter.Update(addedRows));
-                    allAddedRows.AddRange(addedRows);
-                }
-            }
-            if ((this._regionPointsTableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.RegionPoints.Select(null, null, global::System.Data.DataViewRowState.Added);
-                if (((addedRows != null) 
-                            && (0 < addedRows.Length))) {
-                    result = (result + this._regionPointsTableAdapter.Update(addedRows));
                     allAddedRows.AddRange(addedRows);
                 }
             }
@@ -8033,6 +7938,14 @@ namespace ExpertMap.DataModels.ExpertMapDataSetTableAdapters {
                     allAddedRows.AddRange(addedRows);
                 }
             }
+            if ((this._regionPointsTableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.RegionPoints.Select(null, null, global::System.Data.DataViewRowState.Added);
+                if (((addedRows != null) 
+                            && (0 < addedRows.Length))) {
+                    result = (result + this._regionPointsTableAdapter.Update(addedRows));
+                    allAddedRows.AddRange(addedRows);
+                }
+            }
             return result;
         }
         
@@ -8043,6 +7956,14 @@ namespace ExpertMap.DataModels.ExpertMapDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private int UpdateDeletedRows(ExpertMapDataSet dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows) {
             int result = 0;
+            if ((this._regionPointsTableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.RegionPoints.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+                if (((deletedRows != null) 
+                            && (0 < deletedRows.Length))) {
+                    result = (result + this._regionPointsTableAdapter.Update(deletedRows));
+                    allChangedRows.AddRange(deletedRows);
+                }
+            }
             if ((this._markerInRegionTableAdapter != null)) {
                 global::System.Data.DataRow[] deletedRows = dataSet.MarkerInRegion.Select(null, null, global::System.Data.DataViewRowState.Deleted);
                 if (((deletedRows != null) 
@@ -8088,14 +8009,6 @@ namespace ExpertMap.DataModels.ExpertMapDataSetTableAdapters {
                 if (((deletedRows != null) 
                             && (0 < deletedRows.Length))) {
                     result = (result + this._expertTableAdapter.Update(deletedRows));
-                    allChangedRows.AddRange(deletedRows);
-                }
-            }
-            if ((this._regionPointsTableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.RegionPoints.Select(null, null, global::System.Data.DataViewRowState.Deleted);
-                if (((deletedRows != null) 
-                            && (0 < deletedRows.Length))) {
-                    result = (result + this._regionPointsTableAdapter.Update(deletedRows));
                     allChangedRows.AddRange(deletedRows);
                 }
             }
