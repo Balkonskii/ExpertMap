@@ -24,7 +24,8 @@ namespace ExpertMap.Models
 
         public override void Draw(Graphics graphics)
         {
-            graphics.DrawRectangle(Pens.Black, this.Rectangle);
+            var pen = new Pen(Color.FromArgb((int)(255f * this.Opacity), Color.Black));
+            graphics.DrawRectangle(pen, this.Rectangle);
         }
 
         public override void RecalcCoordinates(PointF delta)

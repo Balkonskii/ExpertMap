@@ -115,7 +115,7 @@ namespace ExpertMap.Forms
                 {
                     var rw = row as ExpertMap.DataModels.ExpertMapDataSet.MarkerInRegionRow;
                     if (rw.RegionId == SelectedRegionId)
-                        markerInRegionAdapter.Delete(rw.MarkerId, rw.RegionId);
+                        markerInRegionAdapter.Delete(rw.Id, rw.MarkerId, rw.RegionId);
                 }
 
                 var region = DbHelper.GetInstance().ExpertMapDataSet.Region.Where(x => x.Id == SelectedRegionId).FirstOrDefault();

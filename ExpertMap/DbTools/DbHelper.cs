@@ -6,6 +6,9 @@ using ExpertMap.DataModels;
 using System.Data;
 using System.Data.OleDb;
 using System.Drawing;
+using ExpertMap.Models;
+using System.Windows.Forms;
+using System.IO;
 
 namespace ExpertMap.DbTools
 {
@@ -18,6 +21,7 @@ namespace ExpertMap.DbTools
 
         private DbHelper()
         {
+            _connectionString = Path.Combine(Application.StartupPath, "ExpertMapDb.accdb");
             Init();
         }
 
@@ -122,9 +126,82 @@ namespace ExpertMap.DbTools
             }
         }
 
-        public void SaveMarker()
+        public void SaveMarker(Marker marker)
         {
- 
+            var markerTableAdapter = new ExpertMap.DataModels.ExpertMapDataSetTableAdapters.MarkerTableAdapter();
+            markerTableAdapter.Insert(marker.DefaultLocation.X, marker.DefaultLocation.Y, marker.ImageName);
+
+            if (marker.Parent != null)
+            {
+                var row = markerTableAdapter.GetData().Where(x =>
+                     x.X == marker.DefaultLocation.X &&
+                     x.Y == marker.DefaultLocation.Y &&
+                     x.ImageName == marker.ImageName).FirstOrDefault();
+
+                var markerInRegionTableAdapter = new ExpertMap.DataModels.ExpertMapDataSetTableAdapters.MarkerInRegionTableAdapter();
+                markerInRegionTableAdapter.Insert(row.Id, marker.Parent.RegionId);
+            }
+        }
+
+        public void DeleteMarker(string imageName, int x, int y)
+        {
+            var markerTableAdapter = new ExpertMap.DataModels.ExpertMapDataSetTableAdapters.MarkerTableAdapter();
+
+            var markerRow = markerTableAdapter.GetData().Where(m =>
+                m.X == x &&
+                m.Y == y &&
+                m.ImageName == imageName).FirstOrDefault();
+
+            var expertInMarkerTableAdapter = new ExpertMap.DataModels.ExpertMapDataSetTableAdapters.ExpertInMarkerTableAdapter();
+            var expertInMarkerRows = expertInMarkerTableAdapter.GetData().Where(m => m.MarkerId == markerRow.Id);
+
+            foreach (ExpertMap.DataModels.ExpertMapDataSet.ExpertInMarkerRow item in expertInMarkerRows)
+            {
+                expertInMarkerTableAdapter.Delete(item.Id, item.ExpertId, item.MarkerId);
+            }
+
+            var markerInRegionTableAdapter = new ExpertMap.DataModels.ExpertMapDataSetTableAdapters.MarkerInRegionTableAdapter();
+            var markerInRegionRows = markerInRegionTableAdapter.GetData().Where(m => m.MarkerId == markerRow.Id);
+
+            foreach (ExpertMap.DataModels.ExpertMapDataSet.MarkerInRegionRow item in markerInRegionRows)
+            {
+                markerInRegionTableAdapter.Delete(item.Id, item.MarkerId, item.RegionId);
+            }
+            
+            markerTableAdapter.Delete(markerRow.Id, markerRow.X, markerRow.Y);
+        }
+
+
+        public void DeleteRegion(ExpertMap.Models.Region region)
+        {
+            var regionTableAdapter = new ExpertMap.DataModels.ExpertMapDataSetTableAdapters.RegionTableAdapter();
+            var regionRow = regionTableAdapter.GetData().Where(x => x.Id == region.RegionId).FirstOrDefault();
+
+            var regionPointsTableAdapter = new ExpertMap.DataModels.ExpertMapDataSetTableAdapters.RegionPointsTableAdapter();
+            var regionPointsRows = regionPointsTableAdapter.GetData().Where(x => x.RegionId == regionRow.Id);
+
+            foreach (var item in regionPointsRows)
+            {
+                regionPointsTableAdapter.Delete(item.RegionId, item.X, item.Y, item.Number);
+            }
+
+            if (ExpertMap.Tools.ExpertMapOptions.CurrentOptions.DeleteMarkerByRegion)
+            {
+                var markerInRegionTableAdapter = 
+                    new ExpertMap.DataModels.ExpertMapDataSetTableAdapters.MarkerInRegionTableAdapter();
+
+                var markerIds = markerInRegionTableAdapter.GetData().Where(x => x.RegionId == regionRow.Id).Select(x => x.MarkerId);
+                var markerTableAdapter = new ExpertMap.DataModels.ExpertMapDataSetTableAdapters.MarkerTableAdapter();
+
+                var markerRows = markerTableAdapter.GetData().Where(x => markerIds.Contains(x.Id));
+
+                foreach (var item in markerRows)
+                {
+                    this.DeleteMarker(item.ImageName, item.X, item.Y);
+                }
+            }
+
+            regionTableAdapter.Delete(regionRow.Id, regionRow.Name);
         }
     }
 }

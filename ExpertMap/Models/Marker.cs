@@ -17,6 +17,8 @@ namespace ExpertMap.Models
 
         public string ImageName { get { return _imageName; } }
 
+        public Region Parent { get; set; }
+
         public Marker(Image image,string imageName, Point point)
             : base(new Rectangle(point, image.Size))
         {
@@ -33,7 +35,7 @@ namespace ExpertMap.Models
             attributes.SetColorMatrix(matrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
 
             graphics.DrawImage(_image, Rectangle, 0, 0, _image.Width, _image.Height, GraphicsUnit.Pixel, attributes);
-
+            
             //this.Panel.Location = new Point(Rectangle.Location.X - _image.Width / 2, Rectangle.Location.Y - _image.Height / 2);
 
             //graphics.DrawImage(_image, new Rectangle(Panel.Location.X, Panel.Location.Y, _image.Width, _image.Height), 0, 0,

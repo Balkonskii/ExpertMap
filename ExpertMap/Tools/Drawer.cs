@@ -148,5 +148,77 @@ namespace ExpertMap.Tools
             var maxY = points.Select(x => x.Y).Max();
             return new Rectangle(location, new Size(maxX - location.X, maxY - location.Y));
         }
+
+        public void SelectRegionFromPoint(Point location)
+        {
+            ExpertMap.Models.Region item = null;
+
+            if (this.TryGetRegion(location, out item))
+            {
+                ResetSelected();
+                //this.DrawableItems.Where(x => x is Marker && (x as Marker).Parent == item).
+                //    ToList().ForEach(x => x.IsSelected = true);
+
+                //item.IsSelected = true;
+                SelectRegionsById(item.RegionId);
+            }
+            else
+            {
+                ResetSelected();
+                ResetHighlighted();
+            }
+        }
+
+        public void SelectRegionsById(int id)
+        {
+            this.DrawableItems.Where(x => x is ExpertMap.Models.Region && (x as ExpertMap.Models.Region).RegionId == id).
+                ToList().ForEach(x => SelectRegion((x as ExpertMap.Models.Region)));
+        }
+
+        public void SelectRegion(ExpertMap.Models.Region region)
+        {
+            region.IsSelected = true;
+            this.DrawableItems.Where(x => x is Marker && (x as Marker).Parent == region).
+                              ToList().ForEach(x => x.IsSelected = true);
+        }
+
+        public void HighlightRegionsById(int id)
+        {
+            this.DrawableItems.Where(x => x is ExpertMap.Models.Region && (x as ExpertMap.Models.Region).RegionId == id).
+                ToList().ForEach(x => HighlightRegion((x as ExpertMap.Models.Region)));
+        }
+
+        public void HighlightRegion(ExpertMap.Models.Region region)
+        {
+            region.HighlightInNextStep = true;
+            this.DrawableItems.Where(x => x is Marker && (x as Marker).Parent == region).
+                              ToList().ForEach(x => x.HighlightInNextStep = true);
+        }
+
+        public void HighlightFromPoint(Point location)
+        {
+            ExpertMap.Models.Region item = null;
+            if (this.TryGetRegion(location, out item))
+            {
+                ResetHighlighted();
+                HighlightRegionsById(item.RegionId); 
+            }
+        }
+
+        public void ResetSelected()
+        {
+            this.DrawableItems.ForEach(x => x.IsSelected = false);
+        }
+
+        public void ResetHighlighted()
+        {
+            this.DrawableItems.ForEach(x => x.HighlightInNextStep = false);
+        }
+
+        public void HighlightSelectedItems()
+        {
+            ResetHighlighted();
+            this.DrawableItems.Where(x => x.IsSelected).ToList().ForEach(x => x.HighlightInNextStep = true);
+        }
     }
 }
