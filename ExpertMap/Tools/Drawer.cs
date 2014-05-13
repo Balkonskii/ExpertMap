@@ -220,5 +220,15 @@ namespace ExpertMap.Tools
             ResetHighlighted();
             this.DrawableItems.Where(x => x.IsSelected).ToList().ForEach(x => x.HighlightInNextStep = true);
         }
+
+        public IEnumerable<Marker> HoveredMarkers(Point location)
+        {
+            return DrawableItems.Where(x => x.Rectangle.Contains(location) && x is Marker).Cast<Marker>();
+        }
+
+        public IEnumerable<Models.Region> HoveredRegions(Point location)
+        {
+            return DrawableItems.Where(x => x.Rectangle.Contains(location) && x is Models.Region).Cast<Models.Region>();
+        }
     }
 }

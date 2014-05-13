@@ -143,34 +143,92 @@ namespace ExpertMap.DbTools
             }
         }
 
+        public void DeleteMarker(int markerId)
+        {
+            var markerTableAdapter = new ExpertMap.DataModels.ExpertMapDataSetTableAdapters.MarkerTableAdapter();
+            var markerRow = markerTableAdapter.GetData().Where(x => x.Id == markerId).FirstOrDefault();
+            if (markerRow != null)
+            {
+                DeleteMarker(markerRow.ImageName, markerRow.X, markerRow.Y);
+            }
+        }
+        
         public void DeleteMarker(string imageName, int x, int y)
         {
             var markerTableAdapter = new ExpertMap.DataModels.ExpertMapDataSetTableAdapters.MarkerTableAdapter();
-
-            var markerRow = markerTableAdapter.GetData().Where(m =>
-                m.X == x &&
-                m.Y == y &&
-                m.ImageName == imageName).FirstOrDefault();
-
-            var expertInMarkerTableAdapter = new ExpertMap.DataModels.ExpertMapDataSetTableAdapters.ExpertInMarkerTableAdapter();
-            var expertInMarkerRows = expertInMarkerTableAdapter.GetData().Where(m => m.MarkerId == markerRow.Id);
-
-            foreach (ExpertMap.DataModels.ExpertMapDataSet.ExpertInMarkerRow item in expertInMarkerRows)
-            {
-                expertInMarkerTableAdapter.Delete(item.Id, item.ExpertId, item.MarkerId);
-            }
-
-            var markerInRegionTableAdapter = new ExpertMap.DataModels.ExpertMapDataSetTableAdapters.MarkerInRegionTableAdapter();
-            var markerInRegionRows = markerInRegionTableAdapter.GetData().Where(m => m.MarkerId == markerRow.Id);
-
-            foreach (ExpertMap.DataModels.ExpertMapDataSet.MarkerInRegionRow item in markerInRegionRows)
-            {
-                markerInRegionTableAdapter.Delete(item.Id, item.MarkerId, item.RegionId);
-            }
-            
+            var markerRow = GetMarkerRow(imageName, x, y);
+            DeleteExpertInMarker(markerRow.Id, null);
             markerTableAdapter.Delete(markerRow.Id, markerRow.X, markerRow.Y);
         }
 
+        public void DeleteExpertInMarker(int? markerId,int? expertId)
+        {
+            if (!markerId.HasValue && !expertId.HasValue) return;
+
+            List<int> markerIds = new List<int>();
+            List<int> expertIds = new List<int>();
+
+            var expertInMarkerTableAdapter = new ExpertMap.DataModels.ExpertMapDataSetTableAdapters.ExpertInMarkerTableAdapter();
+
+            if (!markerId.HasValue)
+            {
+                markerIds = expertInMarkerTableAdapter.GetData()
+                    .Where(x => x.ExpertId == expertId.Value).Select(x => x.MarkerId).ToList();
+            }
+            else
+                markerIds.Add(markerId.Value);
+
+            if (!expertId.HasValue)
+            {
+                expertIds = expertInMarkerTableAdapter.GetData()
+                    .Where(x => x.MarkerId == markerId).Select(x => x.ExpertId).ToList();
+            }
+            else
+                expertIds.Add(expertId.Value);
+
+            var expertInMarkerRows = expertInMarkerTableAdapter.GetData()
+                .Where(x => expertIds.Contains(x.ExpertId) && markerIds.Contains(x.MarkerId));
+
+            foreach (var item in expertInMarkerRows)
+            {
+                expertInMarkerTableAdapter.Delete(item.Id, item.ExpertId, item.MarkerId);
+            }
+        }
+
+        public void DeleteMarkerInRegion(int? markerId, int? regionId)
+        {
+            if (!markerId.HasValue && !regionId.HasValue) return;
+
+            List<int> markerIds = new List<int>();
+            List<int> regionIds = new List<int>();
+
+            var markerInRegionTableAdapter = 
+                new ExpertMap.DataModels.ExpertMapDataSetTableAdapters.MarkerInRegionTableAdapter();
+
+            if (!markerId.HasValue)
+            {
+                markerIds = markerInRegionTableAdapter.GetData()
+                    .Where(m => m.RegionId == regionId.Value).Select(x => x.MarkerId).ToList();
+            }
+            else
+                markerIds.Add(markerId.Value);
+
+            if (!regionId.HasValue)
+            {
+                regionIds = markerInRegionTableAdapter.GetData()
+                    .Where(x => x.MarkerId == markerId.Value).Select(x => x.RegionId).ToList();
+            }
+            else
+                regionIds.Add(regionId.Value);
+
+            var markerInRegionRows = markerInRegionTableAdapter.GetData()
+                .Where(x => markerIds.Contains(x.MarkerId) && regionIds.Contains(x.RegionId));
+
+            foreach (var item in markerInRegionRows)
+            {
+                markerInRegionTableAdapter.Delete(item.Id, item.MarkerId, item.RegionId);
+            }
+        }
 
         public void DeleteRegion(ExpertMap.Models.Region region)
         {
@@ -185,23 +243,59 @@ namespace ExpertMap.DbTools
                 regionPointsTableAdapter.Delete(item.RegionId, item.X, item.Y, item.Number);
             }
 
+            var markerInRegionTableAdapter =
+                     new ExpertMap.DataModels.ExpertMapDataSetTableAdapters.MarkerInRegionTableAdapter();
+
+            var markerIds = markerInRegionTableAdapter.GetData()
+                .Where(x => x.RegionId == regionRow.Id).Select(x => x.MarkerId).ToList();
+
+            DeleteMarkerInRegion(null, regionRow.Id);
+
             if (ExpertMap.Tools.ExpertMapOptions.CurrentOptions.DeleteMarkerByRegion)
             {
-                var markerInRegionTableAdapter = 
-                    new ExpertMap.DataModels.ExpertMapDataSetTableAdapters.MarkerInRegionTableAdapter();
-
-                var markerIds = markerInRegionTableAdapter.GetData().Where(x => x.RegionId == regionRow.Id).Select(x => x.MarkerId);
-                var markerTableAdapter = new ExpertMap.DataModels.ExpertMapDataSetTableAdapters.MarkerTableAdapter();
-
-                var markerRows = markerTableAdapter.GetData().Where(x => markerIds.Contains(x.Id));
-
-                foreach (var item in markerRows)
-                {
-                    this.DeleteMarker(item.ImageName, item.X, item.Y);
-                }
+                markerIds.ForEach(DeleteMarker);
             }
 
             regionTableAdapter.Delete(regionRow.Id, regionRow.Name);
         }
+
+        public void InsertMarkerInRegion(int markerId, int regionId)
+        {
+            var markerInRegionTableAdapter =
+                new ExpertMap.DataModels.ExpertMapDataSetTableAdapters.MarkerInRegionTableAdapter();
+
+            markerInRegionTableAdapter.Insert(markerId, regionId);
+        }
+
+        public ExpertMap.DataModels.ExpertMapDataSet.MarkerRow GetMarkerRow(string imageName, int x, int y)
+        {
+            var markerTableAdapter = new ExpertMap.DataModels.ExpertMapDataSetTableAdapters.MarkerTableAdapter();
+
+            var markerRow = markerTableAdapter.GetData().Where(m =>
+                m.X == x &&
+                m.Y == y &&
+                m.ImageName == imageName).FirstOrDefault();
+
+            return markerRow;
+        }
+
+        public ExpertMap.DataModels.ExpertMapDataSet.MarkerRow GetMarkerRow(Marker marker)
+        {
+            return GetMarkerRow(marker.ImageName, marker.DefaultLocation.X, marker.DefaultLocation.Y);
+        }
+
+        public void UpdateMarker(ExpertMap.DataModels.ExpertMapDataSet.MarkerRow markerRow)
+        {
+            var markerTableAdapter = new ExpertMap.DataModels.ExpertMapDataSetTableAdapters.MarkerTableAdapter();
+            markerTableAdapter.Update(markerRow);
+        }
+
+        public void InsertExpertInMarker(int expertId,int markerId)
+        {
+            var expertInMarkerTableAdapter = 
+                new ExpertMap.DataModels.ExpertMapDataSetTableAdapters.ExpertInMarkerTableAdapter();
+
+            expertInMarkerTableAdapter.Insert(expertId, markerId);
+        }    
     }
 }

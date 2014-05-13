@@ -18,3 +18,6 @@ E:\dev\ExpertMap\ExpertMap\obj\x86\Debug\ExpertMap.pdb
 E:\dev\ExpertMap\ExpertMap\obj\x86\Debug\ExpertMap.csprojResolveAssemblyReference.cache
 E:\dev\ExpertMap\ExpertMap\bin\x86\Debug\ExpertMapDb.accdb
 E:\dev\ExpertMap\ExpertMap\obj\x86\Debug\ExpertMap.Forms.Monitoring.resources
+E:\dev\ExpertMap\ExpertMap\obj\x86\Debug\ExpertMap.Forms.MarkerExpertsForm.resources
+E:\dev\ExpertMap\ExpertMap\obj\x86\Debug\ExpertMap.Forms.ExpertQuoteListForm.resources
+E:\dev\ExpertMap\ExpertMap\obj\x86\Debug\ExpertMap.Forms.EditExpertQuoteForm.resources

@@ -73,9 +73,9 @@
             this.regionListBox.DataSource = this.regionBindingSource;
             this.regionListBox.DisplayMember = "Name";
             this.regionListBox.FormattingEnabled = true;
-            this.regionListBox.Location = new System.Drawing.Point(3, -1);
+            this.regionListBox.Location = new System.Drawing.Point(-1, -1);
             this.regionListBox.Name = "regionListBox";
-            this.regionListBox.Size = new System.Drawing.Size(523, 316);
+            this.regionListBox.Size = new System.Drawing.Size(527, 316);
             this.regionListBox.TabIndex = 1;
             this.regionListBox.ValueMember = "Id";
             this.regionListBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.regionListBox_MouseUp);

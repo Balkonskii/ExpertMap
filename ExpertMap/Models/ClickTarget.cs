@@ -7,6 +7,6 @@ namespace ExpertMap.Models
 {
     public enum ClickTarget
     {
-        Map,Marker,Region
+        Map, Marker, Region, MarkerInRegion
     }
 }

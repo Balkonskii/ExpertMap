@@ -107,6 +107,18 @@
     <Compile Include="Forms\EditSpecializationForm.Designer.cs">
       <DependentUpon>EditSpecializationForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\EditExpertQuoteForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\EditExpertQuoteForm.Designer.cs">
+      <DependentUpon>EditExpertQuoteForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ExpertQuoteListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ExpertQuoteListForm.Designer.cs">
+      <DependentUpon>ExpertQuoteListForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\ExpertTableForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -118,6 +130,12 @@
     </Compile>
     <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MarkerExpertsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MarkerExpertsForm.Designer.cs">
+      <DependentUpon>MarkerExpertsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Monitoring.cs">
       <SubType>Form</SubType>
@@ -162,11 +180,20 @@
     <EmbeddedResource Include="Forms\EditSpecializationForm.resx">
       <DependentUpon>EditSpecializationForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EditExpertQuoteForm.resx">
+      <DependentUpon>EditExpertQuoteForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ExpertQuoteListForm.resx">
+      <DependentUpon>ExpertQuoteListForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\ExpertTableForm.resx">
       <DependentUpon>ExpertTableForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MarkerExpertsForm.resx">
+      <DependentUpon>MarkerExpertsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Monitoring.resx">
       <DependentUpon>Monitoring.cs</DependentUpon>

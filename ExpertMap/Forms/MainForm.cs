@@ -45,8 +45,6 @@ namespace ExpertMap.Forms
 
         public Drawer CurrentDrawer { get; set; }
 
-        private Monitoring _monitoring;
-
         private PointF CurrentDelta
         {
             get { return Drawer.GetDelta(pbMap.Size, DefaultMapSize); }
@@ -94,7 +92,7 @@ namespace ExpertMap.Forms
             var addRegionMenuItem = new ToolStripMenuItem("Добавить регион");
             addRegionMenuItem.Click += AddRegionItem_Click;
 
-            var editMenuItem = new ToolStripMenuItem("Редактировать маркер");
+            var editMenuItem = new ToolStripMenuItem("Эксперты");
             editMenuItem.Click += EditMarkerItem_Click;
 
             var replaceMenuItem = new ToolStripMenuItem("Переместить маркер");
@@ -118,6 +116,10 @@ namespace ExpertMap.Forms
                     break;
                 case ClickTarget.Region:
                     menuItems = new ToolStripMenuItem[] { addMarkerMenuItem, removeRegionMenuItem };
+                    break;
+                case ClickTarget.MarkerInRegion:
+                    menuItems = new ToolStripMenuItem[] { addMarkerMenuItem, editMenuItem, 
+                        replaceMenuItem, removeMarkerMenuItem, removeRegionMenuItem };
                     break;
                 default:
                     break;
@@ -195,9 +197,6 @@ namespace ExpertMap.Forms
             InitConnectionString();
             LoadDrawableItems();
             CurrentDrawer.ResetHighlighted();
-
-             _monitoring = new Monitoring();
-             _monitoring.Show();
         }
 
         private void InitConnectionString()
@@ -241,7 +240,11 @@ namespace ExpertMap.Forms
 
         private void EditMarkerItem_Click(object sender, EventArgs e)
         {
-            
+            var markerRow = DbHelper.GetInstance().GetMarkerRow(_clickedObject as Marker);
+
+            MarkerExpertsForm form = new MarkerExpertsForm();
+            form.SelectedMarkerId = markerRow.Id;
+            form.ShowDialog();
         }
 
         private void ReplaceMarkerItem_Click(object sender, EventArgs e)
@@ -259,7 +262,9 @@ namespace ExpertMap.Forms
 
         private void RemoveRegionItem_Click(object sender, EventArgs e)
         {
-            var region = _clickedObject as ExpertMap.Models.Region;
+            var region = _clickedObject is ExpertMap.Models.Region ? 
+                _clickedObject as ExpertMap.Models.Region : (_clickedObject as Marker).Parent;
+
             var markers = CurrentDrawer.DrawableItems.Where(x => x is Marker).ToList()
                 .Where(x => (x as Marker).Parent == region);
 
@@ -295,14 +300,22 @@ namespace ExpertMap.Forms
 
                 if (CurrentDrawer.TryGetContainer(e.Location, out item))
                 {
-                    _clickedObject = item;
+                    var hoveredMarkers = CurrentDrawer.HoveredMarkers(e.Location);
+                    var hoveredRegions = CurrentDrawer.HoveredRegions(e.Location);
 
-                    if (item is Marker)
+                    if (hoveredRegions.Count() > 0 && hoveredMarkers.Count() > 0)
                     {
+                        _clickedObject = hoveredMarkers.First();
+                        ShowContextMenu(ClickTarget.MarkerInRegion);
+                    }
+                    else if (hoveredMarkers.Count() > 0)
+                    {
+                        _clickedObject = hoveredMarkers.First();
                         ShowContextMenu(ClickTarget.Marker);
                     }
-                    else if (item is ExpertMap.Models.Region)
+                    else if (hoveredRegions.Count() > 0)
                     {
+                        _clickedObject = hoveredRegions.First();
                         ShowContextMenu(ClickTarget.Region);
                     }
                 }
@@ -314,10 +327,39 @@ namespace ExpertMap.Forms
             {
                 var marker = (_clickedObject as Marker);
 
+                var markerRow = DbHelper.GetInstance()
+                        .GetMarkerRow(marker.ImageName, marker.DefaultLocation.X, marker.DefaultLocation.Y);
+
                 marker.DefaultLocation = Drawer.ModifyToBasePoint(
                     new Point(marker.Rectangle.Location.X /*+ marker.Rectangle.Width / 2*/,
                               marker.Rectangle.Location.Y /*+ marker.Rectangle.Height / 2*/),
                     CurrentDelta);
+
+                markerRow.X = marker.DefaultLocation.X;
+                markerRow.Y = marker.DefaultLocation.Y;
+
+                DbHelper.GetInstance().UpdateMarker(markerRow);
+
+                ExpertMap.Models.Region region;
+                if (CurrentDrawer.TryGetRegion(e.Location,out region))
+                {
+                    if (marker.Parent != null)
+                    {
+                        DbHelper.GetInstance().DeleteMarkerInRegion(markerRow.Id, region.RegionId);
+                    }
+
+                    DbHelper.GetInstance().InsertMarkerInRegion(markerRow.Id, region.RegionId);
+                    marker.Parent = region;
+                    marker.IsSelected = region.IsSelected;
+                }
+                else
+                {
+                    if (marker.Parent != null)
+                    {
+                        DbHelper.GetInstance().DeleteMarkerInRegion(markerRow.Id, null);
+                        marker.Parent = null;
+                    }
+                }
 
                 _drag = false;
             }
