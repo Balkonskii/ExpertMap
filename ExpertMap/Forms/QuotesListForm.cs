@@ -28,5 +28,10 @@ namespace ExpertMap.Forms
 
             resultView.ForEach(x => dataGridView1.Rows.Add(x.FullName, x.QuoteText));
         }
+
+        private void QuotesListForm_Load(object sender, EventArgs e)
+        {
+            Fill();
+        }
     }
 }

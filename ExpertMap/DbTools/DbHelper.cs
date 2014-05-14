@@ -9,6 +9,7 @@ using System.Drawing;
 using ExpertMap.Models;
 using System.Windows.Forms;
 using System.IO;
+using ExpertMap.Tools;
 
 namespace ExpertMap.DbTools
 {
@@ -25,11 +26,11 @@ namespace ExpertMap.DbTools
             Init();
         }
 
-        private DbHelper(string connectionString)
-        {
-            _connectionString = connectionString;
-            Init();
-        }
+        //private DbHelper(string connectionString)
+        //{
+        //    _connectionString = connectionString;
+        //    Init();
+        //}
 
         public static DbHelper GetInstance()
         {
@@ -41,15 +42,15 @@ namespace ExpertMap.DbTools
             return _instance;
         }
 
-        public static DbHelper GetInstance(string connectionString)
-        {
-            if (_instance == null)
-            {
-                _instance = new DbHelper(connectionString);
-            }
+        //public static DbHelper GetInstance(string connectionString)
+        //{
+        //    if (_instance == null)
+        //    {
+        //        _instance = new DbHelper(connectionString);
+        //    }
 
-            return _instance;
-        }
+        //    return _instance;
+        //}
 
         public void FillDataSet(DataSet dataSet)
         {
@@ -82,7 +83,7 @@ namespace ExpertMap.DbTools
             }
             catch (Exception exc)
             {
-                throw exc;
+                MessageBox.Show(exc.Message);
             }
             finally
             {
@@ -300,19 +301,13 @@ namespace ExpertMap.DbTools
 
         private void InitConnectionString()
         {
-            var path = Path.Combine(Application.StartupPath, "ExpertMapDb.accdb");
-            if (!File.Exists(path))
-            {
-                OpenFileDialog dialog = new OpenFileDialog();
-                dialog.Title = "Укажите путь к базе";
-                if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                {
-                    path = dialog.FileName;
-                }
-            }
+            _connectionString = string.Format("Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0}", DataBaseManager.CurrentDataBasePath);
+            ExpertMap.Properties.Settings.Default["ExpertMapDbConnectionString"] = _connectionString;       
+        }
 
-            _connectionString = string.Format("Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0}", path);
-            ExpertMap.Properties.Settings.Default["ExpertMapDbConnectionString"] = _connectionString;            
+        public static void Reset()
+        {
+            _instance = null;
         }
     }
 }

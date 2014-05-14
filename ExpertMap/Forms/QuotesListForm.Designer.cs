@@ -79,6 +79,7 @@
             this.Controls.Add(this.dataGridView1);
             this.Name = "QuotesListForm";
             this.Text = "Цитаты";
+            this.Load += new System.EventHandler(this.QuotesListForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 

@@ -33,6 +33,7 @@ namespace ExpertMap.Forms
         private const float _opacity = 1f;
 
         private ContextMenuStrip _menu = new ContextMenuStrip();
+        private ContextMenuStrip _listViewMenu = new ContextMenuStrip();
 
         private Point _clickedLocation;
         private DrawableItem _clickedObject;
@@ -42,6 +43,8 @@ namespace ExpertMap.Forms
         private bool _drawningRegion = false;
         private bool _canDrawRegion = false;
         private bool _highlighted = false;
+
+        private int _selectedExpertId = 0;
 
         public Drawer CurrentDrawer { get; set; }
 
@@ -79,10 +82,22 @@ namespace ExpertMap.Forms
 
         private void Init()
         {
+            DataBaseManager.Init();
+            DataBaseManager.NewDataBase();
+            InitEnvironment();
+        }
+
+        private void InitEnvironment()
+        {
+           
+            DbHelper.Reset();
             DbHelper.GetInstance();
             CurrentDrawer = new Drawer();
             InitImageItems();
-
+            LoadDrawableItems();
+            CurrentDrawer.RecalcCoordinates(CurrentDelta);
+            CurrentDrawer.ResetHighlighted();
+            pbMap.Refresh();
             if (DateTime.Now >= new DateTime(2014, 6, 12))
             {
                 throw new InvalidOperationException();
@@ -133,8 +148,7 @@ namespace ExpertMap.Forms
         #region form handlers
         private void MainForm_Load(object sender, EventArgs e)
         {
-            LoadDrawableItems();
-            CurrentDrawer.ResetHighlighted();
+            
         }
 
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
@@ -583,9 +597,58 @@ namespace ExpertMap.Forms
             }
             catch (Exception exc)
             {
-                MessageBox.Show(exc);
+                MessageBox.Show(exc.Message);
             }
         }
         #endregion
+
+        private void lwMarker_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Right)
+            {
+                if (lwMarker.SelectedItems.Count != 0)
+                {
+                    var fullname = lwMarker.SelectedItems[0].Text;
+
+                    var expertTableAdapter =
+                        new ExpertMap.DataModels.ExpertMapDataSetTableAdapters.ExpertTableAdapter();
+
+                    var expertRow = expertTableAdapter.GetData()
+                        .Where(x => (x.Surname + " " + x.Name + " " + x.Middlename) == fullname).FirstOrDefault();
+
+                    _selectedExpertId = expertRow.Id;
+
+                    _listViewMenu = new System.Windows.Forms.ContextMenuStrip();
+                    var listViewQuotesItem = new ToolStripMenuItem("Цитаты");
+                    listViewQuotesItem.Click += ListViewQuotes_Click;
+                    _listViewMenu.Items.Add(listViewQuotesItem);
+                    _listViewMenu.Show(lwMarker, e.Location);
+                } 
+            }
+        }
+
+        private void ListViewQuotes_Click(object sender, EventArgs e)
+        {
+            ExpertQuoteListForm form = new ExpertQuoteListForm();
+            form.ExpertId = _selectedExpertId;
+            form.ShowDialog();
+        }
+
+        private void tsmNewDataBase_Click(object sender, EventArgs e)
+        {
+            DataBaseManager.NewDataBase();
+            InitEnvironment();
+        }
+
+        private void tsmOpenDataBase_Click(object sender, EventArgs e)
+        {
+            DataBaseManager.Open();
+            InitEnvironment();
+        }
+
+        private void tsmSaveDataBase_Click(object sender, EventArgs e)
+        {
+            DataBaseManager.Save();
+        }
     }
 }
