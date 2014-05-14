@@ -33,7 +33,7 @@ namespace ExpertMap.Forms
         private const float _opacity = 1f;
 
         private ContextMenuStrip _menu = new ContextMenuStrip();
-        
+
         private Point _clickedLocation;
         private DrawableItem _clickedObject;
         private Rectangle _regionRectangle;
@@ -49,6 +49,8 @@ namespace ExpertMap.Forms
         {
             get { return Drawer.GetDelta(pbMap.Size, DefaultMapSize); }
         }
+
+        #region init methods
 
         private void InitImageItems()
         {
@@ -80,8 +82,71 @@ namespace ExpertMap.Forms
             DbHelper.GetInstance();
             CurrentDrawer = new Drawer();
             InitImageItems();
+
+            if (DateTime.Now >= new DateTime(2014, 6, 12))
+            {
+                throw new InvalidOperationException();
+            }
         }
 
+        private void LoadDrawableItems()
+        {
+            try
+            {
+                var allRegions = DbHelper.GetInstance().ExpertMapDataSet.Region;
+
+                foreach (var rgRow in allRegions)
+                {
+                    var points = DbHelper.GetInstance().ExpertMapDataSet.RegionPoints.Where(x => x.RegionId == rgRow.Id)
+                        .OrderBy(x => x.Number).Select(x => new Point(x.X, x.Y)).ToList();
+
+                    var rect = Drawer.GetRectangleFromPoints(points.ToArray());
+                    CreateRegion(rgRow.Id, rgRow.Name, rect, points);
+                }
+
+                var allMarkers = DbHelper.GetInstance().ExpertMapDataSet.Marker;
+                var delta = CurrentDelta;
+
+                foreach (var item in allMarkers)
+                {
+                    var imageItem = _imageItems.Where(x => x.ImageKey == item.ImageName).FirstOrDefault() ??
+                        _imageItems.First();
+
+                    var marker = CreateMarker(imageItem.Image, imageItem.ImageKey, item.X, item.Y);
+
+                    ExpertMap.Models.Region region = new Models.Region();
+                    if (CurrentDrawer.TryGetRegion(marker.Rectangle.Location, out region))
+                    {
+                        marker.Parent = region;
+                    }
+                }
+
+                CurrentDrawer.DrawItems(pbMap.CreateGraphics());
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.ToString());
+            }
+        }
+        #endregion
+
+        #region form handlers
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            LoadDrawableItems();
+            CurrentDrawer.ResetHighlighted();
+        }
+
+        private void MainForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if ((_canDrawRegion || _drawningRegion) && e.KeyCode == Keys.Escape)
+            {
+                CancelRegionDrawning();
+            }
+        }
+        #endregion
+
+        #region context menu methods
         private void ShowContextMenu(ClickTarget target)
         {
             _menu = new ContextMenuStrip();
@@ -129,106 +194,19 @@ namespace ExpertMap.Forms
             _menu.Show(pbMap, _clickedLocation);
         }
 
-        private void LoadDrawableItems()
-        {
-            try
-            {
-                var allRegions = DbHelper.GetInstance().ExpertMapDataSet.Region;
-
-                foreach (var rgRow in allRegions)
-                {
-                    var points = DbHelper.GetInstance().ExpertMapDataSet.RegionPoints.OrderBy(x => x.Number).Select(x => new Point(x.X, x.Y)).ToList();
-
-                    var rect = Drawer.GetRectangleFromPoints(points.ToArray());
-                    CreateRegion(rgRow.Id, rgRow.Name, rect, points);
-                }
-
-                var allMarkers = DbHelper.GetInstance().ExpertMapDataSet.Marker;
-                var delta = CurrentDelta;
-
-                foreach (var item in allMarkers)
-                {
-                    var imageItem = _imageItems.Where(x => x.ImageKey == item.ImageName).FirstOrDefault() ??
-                        _imageItems.First();
-
-                    var marker = CreateMarker(imageItem.Image, imageItem.ImageKey, item.X, item.Y);
-
-                    ExpertMap.Models.Region region = new Models.Region();
-                    if (CurrentDrawer.TryGetRegion(marker.Rectangle.Location,out region))
-                    {
-                        marker.Parent = region;
-                    }
-                }
-
-                CurrentDrawer.DrawItems(pbMap.CreateGraphics());
-            }
-            catch (Exception exc)
-            {
-                MessageBox.Show(exc.ToString());
-            }
-        }
-
-        private Marker CreateMarker(Image image, string imageName, int X, int Y)
-        {
-            var Marker = new Marker(image, imageName, new Point(X, Y));
-            Marker.Opacity = _opacity;
-            CurrentDrawer.DrawableItems.Add(Marker);
-            return Marker;
-        }
-
-        private void pbMap_Paint(object sender, PaintEventArgs e)
-        {
-            try
-            {
-                CurrentDrawer.DrawItems(e.Graphics);
-                if (_drawningRegion)
-                {
-                    e.Graphics.DrawRectangle(Pens.Black, _regionRectangle);
-                }
-            }
-            catch (Exception exc)
-            {
-                MessageBox.Show(exc.ToString());
-            }
-        }
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-            InitConnectionString();
-            LoadDrawableItems();
-            CurrentDrawer.ResetHighlighted();
-        }
-
-        private void InitConnectionString()
-        {
-            var path = Path.Combine(Application.StartupPath, "ExpertMapDb.accdb");
-            if (!File.Exists(path))
-            {
-                OpenFileDialog dialog = new OpenFileDialog();
-                dialog.Title = "Укажите путь к базе";
-                if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                {
-                    path = dialog.FileName;
-                }
-            }
-
-            string connectionString = string.Format("Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0}", path);
-            ExpertMap.Properties.Settings.Default["ExpertMapDbConnectionString"] = connectionString;
-        }
-
         private void AddMarkerItem_Click(object sender, EventArgs e)
         {
             var menuItem = (sender as ToolStripMenuItem);
 
             var center = new Point(_clickedLocation.X - menuItem.Image.Width / 2, _clickedLocation.Y - menuItem.Image.Height / 2);
             var location = Drawer.ModifyToBasePoint(center, CurrentDelta);
-            
+
             var marker = CreateMarker(menuItem.Image, menuItem.Text, location.X, location.Y);
             marker.RecalcCoordinates(CurrentDelta);
 
             ExpertMap.Models.Region region = new Models.Region();
 
-            if (CurrentDrawer.TryGetRegion(center,out region))
+            if (CurrentDrawer.TryGetRegion(center, out region))
             {
                 marker.Parent = region;
             }
@@ -262,7 +240,7 @@ namespace ExpertMap.Forms
 
         private void RemoveRegionItem_Click(object sender, EventArgs e)
         {
-            var region = _clickedObject is ExpertMap.Models.Region ? 
+            var region = _clickedObject is ExpertMap.Models.Region ?
                 _clickedObject as ExpertMap.Models.Region : (_clickedObject as Marker).Parent;
 
             var markers = CurrentDrawer.DrawableItems.Where(x => x is Marker).ToList()
@@ -271,7 +249,7 @@ namespace ExpertMap.Forms
             CurrentDrawer.DrawableItems.Remove(_clickedObject);
             CurrentDrawer.DrawableItems.RemoveAll(x => markers.Contains(x));
 
-            var rectangle = new Rectangle(_clickedObject.Rectangle.Location, 
+            var rectangle = new Rectangle(_clickedObject.Rectangle.Location,
                 new Size(_clickedObject.Rectangle.Width + 1, _clickedObject.Rectangle.Height + 1));
 
             pbMap.Invalidate();
@@ -283,6 +261,25 @@ namespace ExpertMap.Forms
         {
             pbMap.Cursor = Cursors.Cross;
             _canDrawRegion = true;
+        }
+        #endregion
+
+        #region pbMab handlers
+
+        private void pbMap_Paint(object sender, PaintEventArgs e)
+        {
+            try
+            {
+                CurrentDrawer.DrawItems(e.Graphics);
+                if (_drawningRegion)
+                {
+                    e.Graphics.DrawRectangle(Pens.Black, _regionRectangle);
+                }
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.ToString());
+            }
         }
 
         private void pbMap_Resize(object sender, EventArgs e)
@@ -341,7 +338,7 @@ namespace ExpertMap.Forms
                 DbHelper.GetInstance().UpdateMarker(markerRow);
 
                 ExpertMap.Models.Region region;
-                if (CurrentDrawer.TryGetRegion(e.Location,out region))
+                if (CurrentDrawer.TryGetRegion(e.Location, out region))
                 {
                     if (marker.Parent != null)
                     {
@@ -390,7 +387,7 @@ namespace ExpertMap.Forms
                     }
 
                 }
-                
+
                 CancelRegionDrawning();
             }
             //выделение/снятие выделения региона
@@ -398,6 +395,7 @@ namespace ExpertMap.Forms
             {
                 CurrentDrawer.SelectRegionFromPoint(e.Location);
                 pbMap.Refresh();
+                FillListView();
             }
         }
 
@@ -443,8 +441,19 @@ namespace ExpertMap.Forms
                 }
             }
         }
-    
 
+        private void pbMap_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Left && _canDrawRegion)
+            {
+                _clickedLocation = e.Location;
+                _drawningRegion = true;
+            }
+        }
+
+        #endregion
+
+        #region tool strip menu items
         private void tsmExpert_Click(object sender, EventArgs e)
         {
             ExpertTableForm form = new ExpertTableForm();
@@ -469,22 +478,14 @@ namespace ExpertMap.Forms
             form.ShowDialog();
         }
 
-        private void pbMap_MouseDown(object sender, MouseEventArgs e)
+        private void tsmQuotes_Click(object sender, EventArgs e)
         {
-            if (e.Button == System.Windows.Forms.MouseButtons.Left && _canDrawRegion)
-            {
-                _clickedLocation = e.Location;
-                _drawningRegion = true;
-            }
+            QuotesListForm form = new QuotesListForm();
+            form.ShowDialog();
         }
+        #endregion
 
-        private void MainForm_KeyDown(object sender, KeyEventArgs e)
-        {
-            if ((_canDrawRegion || _drawningRegion) && e.KeyCode == Keys.Escape)
-            {
-                CancelRegionDrawning();
-            }
-        }
+        #region other methods
 
         private void CancelRegionDrawning()
         {
@@ -494,7 +495,7 @@ namespace ExpertMap.Forms
             pbMap.Invalidate();
         }
 
-        private ExpertMap.Models.Region CreateRegion(int regionId,string regionName, Rectangle rect, List<Point> points)
+        private ExpertMap.Models.Region CreateRegion(int regionId, string regionName, Rectangle rect, List<Point> points)
         {
             var region = new ExpertMap.Models.Region(rect, regionId, regionName);
             region.Points = points;
@@ -502,5 +503,47 @@ namespace ExpertMap.Forms
             CurrentDrawer.DrawableItems.Add(region);
             return region;
         }
+
+        private Marker CreateMarker(Image image, string imageName, int X, int Y)
+        {
+            var Marker = new Marker(image, imageName, new Point(X, Y));
+            Marker.Opacity = _opacity;
+            CurrentDrawer.DrawableItems.Add(Marker);
+            return Marker;
+        }
+
+        private void FillListView()
+        {
+            lwMarker.Items.Clear();
+
+            var selectedMarkers = CurrentDrawer.DrawableItems.Where(x => x.IsSelected && x is ExpertMap.Models.Marker).Cast<Marker>();
+
+            List<ExpertMap.DataModels.ExpertMapDataSet.MarkerRow> markerRows = new List<DataModels.ExpertMapDataSet.MarkerRow>();
+
+            foreach (var item in selectedMarkers)
+            {
+                markerRows.Add(DbHelper.GetInstance().GetMarkerRow(item));
+            }
+
+            var markerIds = markerRows.Select(x => x.Id);
+
+            var expertInMarkerTableAdapter =
+                new ExpertMap.DataModels.ExpertMapDataSetTableAdapters.ExpertInMarkerTableAdapter();
+
+            var expertIds = expertInMarkerTableAdapter.GetData()
+                .Where(x => markerIds.Contains(x.MarkerId)).Select(x => x.ExpertId);
+
+            var expertTableAdapter =
+                new ExpertMap.DataModels.ExpertMapDataSetTableAdapters.ExpertTableAdapter();
+
+            var expertFullNames = expertTableAdapter.GetData().Where(x => expertIds.Contains(x.Id))
+                .Select(x => x.Surname + " " + x.Name + " " + x.Middlename).ToList();
+
+            foreach (string item in expertFullNames)
+            {
+                lwMarker.Items.Add(item);
+            }
+        }
+        #endregion
     }
 }

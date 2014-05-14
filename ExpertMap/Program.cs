@@ -15,8 +15,7 @@ namespace ExpertMap
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new ExpertMap.Forms.MainForm());
-            Application.Run(new ExpertMap.Forms.ExpertQuoteListForm() { ExpertId = 1 });
+            Application.Run(new ExpertMap.Forms.MainForm());
         }
     }
 }

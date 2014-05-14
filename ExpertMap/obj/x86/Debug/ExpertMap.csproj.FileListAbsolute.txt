@@ -21,3 +21,4 @@ E:\dev\ExpertMap\ExpertMap\obj\x86\Debug\ExpertMap.Forms.Monitoring.resources
 E:\dev\ExpertMap\ExpertMap\obj\x86\Debug\ExpertMap.Forms.MarkerExpertsForm.resources
 E:\dev\ExpertMap\ExpertMap\obj\x86\Debug\ExpertMap.Forms.ExpertQuoteListForm.resources
 E:\dev\ExpertMap\ExpertMap\obj\x86\Debug\ExpertMap.Forms.EditExpertQuoteForm.resources
+E:\dev\ExpertMap\ExpertMap\obj\x86\Debug\ExpertMap.Forms.QuotesListForm.resources

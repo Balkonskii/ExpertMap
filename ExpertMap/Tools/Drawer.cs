@@ -229,6 +229,6 @@ namespace ExpertMap.Tools
         public IEnumerable<Models.Region> HoveredRegions(Point location)
         {
             return DrawableItems.Where(x => x.Rectangle.Contains(location) && x is Models.Region).Cast<Models.Region>();
-        }
+        }        
     }
 }

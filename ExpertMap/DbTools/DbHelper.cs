@@ -21,7 +21,7 @@ namespace ExpertMap.DbTools
 
         private DbHelper()
         {
-            _connectionString = Path.Combine(Application.StartupPath, "ExpertMapDb.accdb");
+            InitConnectionString();
             Init();
         }
 
@@ -35,7 +35,7 @@ namespace ExpertMap.DbTools
         {
             if (_instance == null)
             {
-                _instance = new DbHelper(Properties.Settings.Default.ExpertMapDbConnectionString);                
+                _instance = new DbHelper();       //Properties.Settings.Default.ExpertMapDbConnectionString         
             }
 
             return _instance;
@@ -296,6 +296,23 @@ namespace ExpertMap.DbTools
                 new ExpertMap.DataModels.ExpertMapDataSetTableAdapters.ExpertInMarkerTableAdapter();
 
             expertInMarkerTableAdapter.Insert(expertId, markerId);
-        }    
+        }
+
+        private void InitConnectionString()
+        {
+            var path = Path.Combine(Application.StartupPath, "ExpertMapDb.accdb");
+            if (!File.Exists(path))
+            {
+                OpenFileDialog dialog = new OpenFileDialog();
+                dialog.Title = "Укажите путь к базе";
+                if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    path = dialog.FileName;
+                }
+            }
+
+            _connectionString = string.Format("Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0}", path);
+            ExpertMap.Properties.Settings.Default["ExpertMapDbConnectionString"] = _connectionString;            
+        }
     }
 }

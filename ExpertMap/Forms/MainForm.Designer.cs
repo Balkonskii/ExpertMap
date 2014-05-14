@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lwMarker = new System.Windows.Forms.ListView();
             this.pbMap = new System.Windows.Forms.PictureBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.tsmDictionary = new System.Windows.Forms.ToolStripMenuItem();
@@ -38,20 +37,12 @@
             this.tsmRegion = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tslRegionName = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tsmQuotes = new System.Windows.Forms.ToolStripMenuItem();
+            this.lwMarker = new System.Windows.Forms.ListView();
             ((System.ComponentModel.ISupportInitialize)(this.pbMap)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // lwMarker
-            // 
-            this.lwMarker.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lwMarker.Location = new System.Drawing.Point(550, 24);
-            this.lwMarker.Name = "lwMarker";
-            this.lwMarker.Size = new System.Drawing.Size(233, 398);
-            this.lwMarker.TabIndex = 1;
-            this.lwMarker.UseCompatibleStateImageBehavior = false;
             // 
             // pbMap
             // 
@@ -89,7 +80,8 @@
             this.tsmExpert,
             this.tsmCountry,
             this.tsmSpecialization,
-            this.tsmRegion});
+            this.tsmRegion,
+            this.tsmQuotes});
             this.tsmDictionary.Name = "tsmDictionary";
             this.tsmDictionary.Size = new System.Drawing.Size(94, 20);
             this.tsmDictionary.Text = "Справочники";
@@ -137,6 +129,24 @@
             this.tslRegionName.Name = "tslRegionName";
             this.tslRegionName.Size = new System.Drawing.Size(0, 17);
             // 
+            // tsmQuotes
+            // 
+            this.tsmQuotes.Name = "tsmQuotes";
+            this.tsmQuotes.Size = new System.Drawing.Size(161, 22);
+            this.tsmQuotes.Text = "Цитаты";
+            this.tsmQuotes.Click += new System.EventHandler(this.tsmQuotes_Click);
+            // 
+            // lwMarker
+            // 
+            this.lwMarker.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lwMarker.Location = new System.Drawing.Point(550, 24);
+            this.lwMarker.Name = "lwMarker";
+            this.lwMarker.Size = new System.Drawing.Size(233, 398);
+            this.lwMarker.TabIndex = 1;
+            this.lwMarker.UseCompatibleStateImageBehavior = false;
+            this.lwMarker.View = System.Windows.Forms.View.List;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -164,7 +174,6 @@
         #endregion
 
         private System.Windows.Forms.PictureBox pbMap;
-        private System.Windows.Forms.ListView lwMarker;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem tsmDictionary;
         private System.Windows.Forms.ToolStripMenuItem tsmExpert;
@@ -173,5 +182,7 @@
         private System.Windows.Forms.ToolStripMenuItem tsmRegion;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel tslRegionName;
+        private System.Windows.Forms.ToolStripMenuItem tsmQuotes;
+        private System.Windows.Forms.ListView lwMarker;
     }
 }
