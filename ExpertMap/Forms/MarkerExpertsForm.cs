@@ -85,7 +85,7 @@ namespace ExpertMap.Forms
         {
             if (e.Button == System.Windows.Forms.MouseButtons.Right)
             {
-                _menu.Show(expertListBox, e.Location);
+                //_menu.Show(expertListBox, e.Location);
             }
         }
     }

@@ -143,6 +143,7 @@ namespace ExpertMap.Tools
 
         public static Rectangle GetRectangleFromPoints(Point[] points)
         {
+            if (points.Length == 0) return new Rectangle();
             var location = points[0];
             var maxX = points.Select(x => x.X).Max();
             var maxY = points.Select(x => x.Y).Max();

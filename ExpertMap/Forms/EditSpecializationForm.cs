@@ -45,6 +45,7 @@ namespace ExpertMap.Forms
             if (SpecializationId > 0)
             {
                 var specialization = DbHelper.GetInstance().ExpertMapDataSet.Specialization.Where(x => x.Id == SpecializationId).FirstOrDefault();
+                specialization.Name = nameTextBox.Text;
                 specializationTableAdapter.Update(specialization);
             }
             else

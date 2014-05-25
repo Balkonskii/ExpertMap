@@ -17,7 +17,9 @@ namespace ExpertMap
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new ExpertMap.Forms.MainForm());
+            //Application.Run(new ExpertMap.Forms.MainForm());
+            ProjectManager.Init();
+            Application.Run(new ExpertMap.Forms.ProjectListForm());
         }
     }
 }

@@ -29,12 +29,8 @@ namespace ExpertMap.Forms
 
         private void EditExpert_Load(object sender, EventArgs e)
         {
-            // TODO: This line of code loads data into the 'expertMapDataSet.Specialization' table. You can move, or remove it, as needed.
             this.specializationTableAdapter.Fill(this.expertMapDataSet.Specialization);
-            // TODO: This line of code loads data into the 'expertMapDataSet.Country' table. You can move, or remove it, as needed.
             this.countryTableAdapter.Fill(this.expertMapDataSet.Country);
-            // TODO: This line of code loads data into the 'expertMapDataSet.Expert' table. You can move, or remove it, as needed.
-            //this.expertTableAdapter.Fill(this.expertMapDataSet.Expert.Where(x => x.Id == ExpertId).FirstOrDefault());
             var expert = DbHelper.GetInstance().ExpertMapDataSet.Expert.Where(x => x.Id == ExpertId).FirstOrDefault();
             if (expert != null)
             {
@@ -53,6 +49,16 @@ namespace ExpertMap.Forms
             if (ExpertId > 0)
             {
                 var expert = DbHelper.GetInstance().ExpertMapDataSet.Expert.Where(x => x.Id == ExpertId).FirstOrDefault();
+
+                var editedExpert = expertBindingSource.DataSource as ExpertMap.DataModels.ExpertMapDataSet.ExpertRow;
+                expert.Name = editedExpert.Name;
+                expert.Surname = editedExpert.Surname;
+                expert.Datebirth = editedExpert.Datebirth;
+                expert.SpecializationId = editedExpert.SpecializationId;
+                expert.Job = editedExpert.Job;
+                expert.CountryId = editedExpert.CountryId;
+                expert.Rating = editedExpert.Rating;
+
                 expertTableAdapter.Update(expert);
             }
             else

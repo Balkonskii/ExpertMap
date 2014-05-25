@@ -44,6 +44,7 @@ namespace ExpertMap.Forms
             if (RegionId > 0)
             {
                 var region = DbHelper.GetInstance().ExpertMapDataSet.Region.Where(x => x.Id == RegionId).FirstOrDefault();
+                region.Name = nameTextBox.Text;
                 regionTableAdapter.Update(region);
             }
             else

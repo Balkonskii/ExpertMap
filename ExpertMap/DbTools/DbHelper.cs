@@ -38,8 +38,7 @@ namespace ExpertMap.DbTools
             {
                 _instance = new DbHelper();       //Properties.Settings.Default.ExpertMapDbConnectionString         
             }
-
-            return _instance;
+            return _instance.Init();            
         }
 
         //public static DbHelper GetInstance(string connectionString)
@@ -301,7 +300,7 @@ namespace ExpertMap.DbTools
 
         private void InitConnectionString()
         {
-            _connectionString = string.Format("Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0}", DataBaseManager.CurrentDataBasePath);
+            _connectionString = string.Format("Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0}", ProjectManager.CurrentDataBasePath);
             ExpertMap.Properties.Settings.Default["ExpertMapDbConnectionString"] = _connectionString;       
         }
 

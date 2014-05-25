@@ -18,8 +18,10 @@ namespace ExpertMap.Forms
             InitializeComponent();
             btnOk.Visible = btnClose.Visible = needToSelect;
             regionListBox.Dock = needToSelect ? DockStyle.None : DockStyle.Fill;
+            _needToSelect = needToSelect;
         }
 
+        private bool _needToSelect = false;
         private ContextMenu _menu;
 
         private void RegionListForm_Load(object sender, EventArgs e)
@@ -129,7 +131,8 @@ namespace ExpertMap.Forms
         {
             if (e.Button == System.Windows.Forms.MouseButtons.Right)
             {
-                _menu.Show(regionListBox, e.Location);
+                if (!_needToSelect)
+                    _menu.Show(regionListBox, e.Location);
             }
         }
     }

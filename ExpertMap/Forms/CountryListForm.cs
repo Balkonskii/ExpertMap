@@ -18,8 +18,10 @@ namespace ExpertMap.Forms
 
             btnOk.Visible = btnClose.Visible = needToSelect;
             countryListBox.Dock = needToSelect ? DockStyle.None : DockStyle.Fill;
+            _needToSelect = needToSelect;
         }
 
+        private bool _needToSelect = false;
         private ContextMenu _menu;
 
         public int SelectedCountryId
@@ -110,7 +112,8 @@ namespace ExpertMap.Forms
         {
             if (e.Button == System.Windows.Forms.MouseButtons.Right)
             {
-                _menu.Show(countryListBox, e.Location);
+                if (!_needToSelect)
+                    _menu.Show(countryListBox, e.Location);
             }
         }
     }

@@ -44,6 +44,7 @@ namespace ExpertMap.Forms
             if (CountryId > 0)
             {
                 var country = DbHelper.GetInstance().ExpertMapDataSet.Country.Where(x => x.Id == CountryId).FirstOrDefault();
+                country.Name = nameTextBox.Text;
                 countryTableAdapter.Update(country);
             }
             else

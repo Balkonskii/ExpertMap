@@ -33,5 +33,15 @@ namespace ExpertMap.Properties {
                 return ((string)(this["ExpertMapDbConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=|DataDirectory|\\Projects.sdf")]
+        public string ProjectsConnectionString {
+            get {
+                return ((string)(this["ProjectsConnectionString"]));
+            }
+        }
     }
 }
